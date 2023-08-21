@@ -6,17 +6,14 @@ using Zenject;
 
 public class GameInController : MonoBehaviour
 {
-
     [Inject] private BoardSpawnController boardSpawnController;
     [Inject] private BoardController boardController;
     [Inject] private GameInCameraController gameInCameraController;
-
 
     private void Start()
     {
         InitialControllerAsync();
     }
-
 
     public async void InitialControllerAsync()
     {

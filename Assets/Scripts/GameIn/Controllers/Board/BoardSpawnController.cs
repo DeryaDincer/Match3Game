@@ -12,7 +12,7 @@ public class BoardSpawnController
     private IBlockEntityTypeDefinition[] blockEntityTypeDefinitions;
     private GridStartLayout startLayout;
     private BoardController BoardController;
-
+    
     [Inject]
     public void Construct(LevelSettings settings, LevelSceneReferences references, BlockAnimationController blockAnimationController, BoardController boardController)
     {
@@ -45,7 +45,7 @@ public class BoardSpawnController
         // Set IDs for all blocks and find locked blocks
         SetAllBlockId();
         FindLockedBlocks();
-
+        SetBoardBackround();
         await UniTask.Yield();
     }
 
@@ -61,6 +61,12 @@ public class BoardSpawnController
         }
     }
 
+    // Set Background Board
+    private void SetBoardBackround()
+    {
+        Vector2 backgroundScale = new Vector3(Board.Width + references.BackgroundBoardScaleOffset, Board.Height + references.BackgroundBoardScaleOffset, 1);
+        references.BackgroundBoardSprite.transform.localScale = backgroundScale;
+    }
     // Set BlockID and target position for all blocks
     public void SetAllBlockId(bool setBlockPosition = true)
     {

@@ -98,6 +98,8 @@ public class BlockCheckMatch
         int width = board.Width;
         IBlockEntityTypeDefinition targetType = board.ActiveBlocks[row * width + col].EntityType;
 
+        if (targetType is LockedBlockTypeDefinition) return false;
+
         int[] dx = { -1, 1, 0, 0 }; // Horizontal directions (left and right)
         int[] dy = { 0, 0, -1, 1 }; // Vertical directions (up and down)
 
@@ -183,6 +185,11 @@ public class BlockCheckMatch
         int row2 = targetIndex / width;
         int col2 = targetIndex % width;
 
+       if (board.ActiveBlocks[sourceIndex] == null || board.ActiveBlocks[targetIndex] == null)
+        {
+            return false;
+        }
+
         if (board.ActiveBlocks[sourceIndex].Situated || board.ActiveBlocks[targetIndex].Situated)
         {
             return false;
@@ -206,6 +213,57 @@ public class BlockCheckMatch
     /// Shuffles the blocks on the game board.
     /// </summary>
     /// <param name="board">The game board.</param>
+    public static void Shufflee(Board board)
+    {
+        int width = board.Width;
+        int height = board.Height;
+        int gridCount = width * height;
+        List<int> lockedIds = board.LockedIds;
+        List<int> enableIds = new List<int>();
+        for (int i = 0; i < gridCount; i++)
+        {
+            if (!board.ActiveBlocks[i].Situated)
+            {
+                enableIds.Add(i);
+            }
+        }
+       
+        int maxShuffleAttempts = 100; // You can adjust this value as needed
+
+        for (int attempt = 0; attempt < maxShuffleAttempts; attempt++)
+        {
+            Block[] shuffledGrid = new Block[gridCount];
+            Array.Copy(board.ActiveBlocks, shuffledGrid, gridCount); // Make a copy of the board.Grid
+
+            System.Random rand = new System.Random();
+
+            for (int i = enableIds.Count - 1; i > 0; i--)
+            {
+                int randomIndex = rand.Next(i + 1);
+                randomIndex = enableIds[randomIndex];
+                int index = enableIds[i];
+
+                if (shuffledGrid[index].Situated) Debug.LogError("olamaz"); 
+                if (shuffledGrid[randomIndex].Situated) Debug.LogError("hayda");
+
+                Block temp = shuffledGrid[index];
+                shuffledGrid[index] = shuffledGrid[randomIndex];
+                shuffledGrid[randomIndex] = temp;
+            }
+
+            Board shuffledBoard = new Board(width, height, shuffledGrid, lockedIds);
+
+            if (IsValidShuffledBoard(board, shuffledBoard))
+            {
+                Debug.LogError(attempt);
+                Array.Copy(shuffledGrid, board.ActiveBlocks, gridCount); // Copy back the shuffledGrid to board.Grid
+                return;
+            }
+        }
+        Debug.LogError("Valid shuffle could not be found.");
+        // If a valid shuffle is not found within the attempts limit, you can handle this case accordingly
+    }
+
     public static void Shuffle(Board board)
     {
         int width = board.Width;
@@ -471,26 +529,37 @@ public class BlockCheckMatch
 
         for (int x = 0; x < boardWidth; x++)
         {
-            int emptyCount = 0; // Variable to store the count of empty blocks
             for (int y = board.ActiveBlocks.Length / boardWidth - 1; y >= 0; y--)
             {
                 int currentIndex = x + y * boardWidth;
-                if (board.ActiveBlocks[currentIndex] == null)
+                Block currentBlock = board.ActiveBlocks[currentIndex];
+
+                if (currentBlock != null && !currentBlock.Situated)
                 {
-                    emptyCount++;
-                }
-                else if (emptyCount > 0 && !board.ActiveBlocks[currentIndex].Situated) // If an empty block is found
-                {
-                    int newIndex = currentIndex + emptyCount * boardWidth; // Calculate new index
-                    board.ActiveBlocks[newIndex] = board.ActiveBlocks[currentIndex]; // Move the block to the new position
-                    board.ActiveBlocks[currentIndex] = null; // Clear the old position
-                    shiftBlocks.Add(board.ActiveBlocks[newIndex]);
+                    int emptyIndex = currentIndex;
+
+                    // Check if there is a situated block above the current block
+                    while (emptyIndex + boardWidth < board.ActiveBlocks.Length &&
+                           (board.ActiveBlocks[emptyIndex + boardWidth] == null ||
+                           board.ActiveBlocks[emptyIndex + boardWidth].Situated))
+                    {
+                        if (board.ActiveBlocks[emptyIndex + boardWidth] != null && board.ActiveBlocks[emptyIndex + boardWidth].Situated)
+                        {
+                            break;
+                        }
+                        emptyIndex += boardWidth;
+                    }
+
+                    if (emptyIndex != currentIndex)
+                    {
+                        board.ActiveBlocks[emptyIndex] = currentBlock;
+                        board.ActiveBlocks[currentIndex] = null;
+                        shiftBlocks.Add(board.ActiveBlocks[emptyIndex]);
+                    }
                 }
             }
         }
+
         return shiftBlocks;
     }
-
-
-
 }

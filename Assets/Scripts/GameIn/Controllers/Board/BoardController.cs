@@ -13,6 +13,8 @@ public class BoardController : IObserver, IDisposable
     private BoardSpawnController boardSpawnController;
     private BlockAnimationController blockAnimationController;
     private Board Board;
+    private bool explosionState;
+    private List<int> popBlocks = new List<int>();
 
     public void BoardInject(Board board)
     {
@@ -42,23 +44,34 @@ public class BoardController : IObserver, IDisposable
         index2 += index1;
 
         bool isValid = BlockCheckMatch.IsValidAdjacentMove(Board, index1, index2);
-        if (isValid)
+        if (isValid && !explosionState)
         {
+            explosionState = true;
             InitialController(index1, index2);
         }
     }
     private async void InitialController(int index1,int index2)
     {
         await SwapBlocksInBoard(index1, index2);
-        await InitialControllerAsync();
-     
+        popBlocks = BlockCheckMatch.GetMatchingBlocks(Board.ActiveBlocks, Board.Width);
+        if(popBlocks.Count == 0)
+        {
+            await SwapBlocksInBoard(index2, index1);
+        }
+        else
+        {
+            await InitialControllerAsync();
+        }
+      
+        explosionState = false;
+
     }
     public async UniTask InitialControllerAsync()
     {
         using (CancellationTokenSource cts = new CancellationTokenSource())
         {
             var token = cts.Token;
-            UniTask Task1 = CheckPops(cts);
+            UniTask Task1 = CheckExplosion(cts);
             UniTask Task2 = ShiftBlocks(cts);
             UniTask Task3 = SpawnNullBlocks(cts);
 
@@ -71,6 +84,7 @@ public class BoardController : IObserver, IDisposable
             {
                 await InitialControllerAsync();
             }
+
         }
     }
 
@@ -80,11 +94,18 @@ public class BoardController : IObserver, IDisposable
         boardSpawnController.SetAllBlockId(setBlockPosition: false);
         blockAnimationController.SetSwapAnimation(swapBlocks[0], setOrderInLayer:true);
         await blockAnimationController.SetSwapAnimation(swapBlocks[1]);
+        await UniTask.Yield();
     }
-
-    private async UniTask CheckPops(CancellationTokenSource cts)
+  
+    private async UniTask CheckExplosion(CancellationTokenSource cts)
     {
-        List<int> popBlocks = BlockCheckMatch.GetMatchingBlocks(Board.ActiveBlocks, Board.Width);
+        popBlocks = BlockCheckMatch.GetMatchingBlocks(Board.ActiveBlocks, Board.Width);
+
+        if (popBlocks.Count == 0)
+        {
+            explosionState = false;
+            cts.Cancel();
+        }
         List<UniTask> taskList = new List<UniTask>();
       
         for (int i = 0; i < popBlocks.Count; i++)
@@ -97,9 +118,6 @@ public class BoardController : IObserver, IDisposable
             Board.ActiveBlocks[popBlocks[i]].OnDeactivate();
             Board.ActiveBlocks[popBlocks[i]] = null;
         }
-
-        if (popBlocks.Count == 0)
-            cts.Cancel();
 
         await UniTask.Yield();
     }

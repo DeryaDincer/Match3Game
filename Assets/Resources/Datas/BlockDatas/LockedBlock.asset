@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be13772120d403d4f8017543dd88a7b8, type: 3}
   m_Name: LockedBlock
   m_EditorClassIdentifier: 
-  defaultSprite: {fileID: 21300000, guid: 91b4148a9aff7e749badc0693c6ffbf2, type: 3}
+  defaultSprite: {fileID: 21300000, guid: adcc716cd2bf62947b52b14c45c60357, type: 3}
