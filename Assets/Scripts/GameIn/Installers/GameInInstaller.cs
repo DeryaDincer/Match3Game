@@ -6,8 +6,6 @@ using Cysharp.Threading.Tasks;
 
 public class GameInInstaller : MonoInstaller
 {
-
-    [SerializeField] private LevelSettings LevelSettings;
     [Group] [SerializeField] private LevelSceneReferences LevelReferences;
     public UniTaskCompletionSource<bool> InitialSignal = new();
 
@@ -17,9 +15,6 @@ public class GameInInstaller : MonoInstaller
     }
     public override void InstallBindings()
     {
-
-        //Settings
-        Container.BindInstance(LevelSettings).AsSingle();
         //References
         Container.BindInstance(LevelReferences).AsSingle();
         //Controllers

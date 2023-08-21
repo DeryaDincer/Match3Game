@@ -22,9 +22,9 @@ public class BoardController : IObserver, IDisposable
     }
 
     [Inject]
-    public void Construct(LevelSettings settings, LevelSceneReferences references, BoardSpawnController boardSpawnController, BlockAnimationController blockAnimationController)
+    public void Construct(LevelSceneReferences references, BoardSpawnController boardSpawnController, BlockAnimationController blockAnimationController)
     {
-        this.settings = settings.BoardControllerSettings;
+        this.settings = LevelController.GetCurrentLevel().SettingsInfo.BoardControllerSettings;
         this.references = references.BoardControllerReferences;
         this.boardSpawnController = boardSpawnController;
         this.blockAnimationController = blockAnimationController;

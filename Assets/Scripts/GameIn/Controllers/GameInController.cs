@@ -9,6 +9,7 @@ public class GameInController : MonoBehaviour
     [Inject] private BoardSpawnController boardSpawnController;
     [Inject] private BoardController boardController;
     [Inject] private GameInCameraController gameInCameraController;
+    [Inject] private BlockAnimationController blockAnimationController;
 
     private void Start()
     {
@@ -21,6 +22,7 @@ public class GameInController : MonoBehaviour
         await UniTask.Yield();
         await boardSpawnController.SpawnRandomBoard();
         await gameInCameraController.Initialized();
+        await blockAnimationController.Initialized();
         boardController.AddRegister();
     }
 }

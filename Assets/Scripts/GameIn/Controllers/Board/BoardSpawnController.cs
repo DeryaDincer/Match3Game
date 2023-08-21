@@ -14,19 +14,20 @@ public class BoardSpawnController
     private BoardController BoardController;
     
     [Inject]
-    public void Construct(LevelSettings settings, LevelSceneReferences references, BlockAnimationController blockAnimationController, BoardController boardController)
+    public void Construct(LevelSceneReferences references, BoardController boardController)
     {
         // Initialize references and settings
-        this.settings = settings.BoardSpawnControllerSettings;
         this.references = references.BoardSpawnControllerReferences;
-        this.blockEntityTypeDefinitions = this.settings.EntityTypes;
-        this.startLayout = this.settings.gridStartLayout;
         this.BoardController = boardController;
     }
 
     // Spawn a random game board
     public async UniTask SpawnRandomBoard()
     {
+        this.settings = LevelController.GetCurrentLevel().SettingsInfo.BoardSpawnControllerSettings;
+        this.blockEntityTypeDefinitions = this.settings.EntityTypes;
+        this.startLayout = this.settings.gridStartLayout;
+
         int width = (int)settings.Width;
         int height = (int)settings.Height;
         List<int> lockedIds = new List<int>();

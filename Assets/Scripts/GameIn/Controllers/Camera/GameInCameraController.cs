@@ -14,14 +14,15 @@ public class GameInCameraController
     private int height;
 
     [Inject]
-    public void Consturct(LevelSettings settings, LevelSceneReferences references)
+    public void Consturct(LevelSceneReferences references)
     {
         this.references = references.GameInCameraControllerReferences;
-        width = (int)settings.BoardSpawnControllerSettings.Width;
-        height = (int)settings.BoardSpawnControllerSettings.Height;
+       
     }
     public async UniTask Initialized()
     {
+        width = (int)LevelController.GetCurrentLevel().SettingsInfo.BoardSpawnControllerSettings.Width;
+        height = (int)LevelController.GetCurrentLevel().SettingsInfo.BoardSpawnControllerSettings.Height;
         this.vCam = references.VirtualCamera;
         SetCamera();
         await UniTask.Yield();
