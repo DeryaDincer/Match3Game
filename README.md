@@ -16,3 +16,7 @@ This game includes a match-3 game mechanism developed using tools like Zenject a
 - Use Level Editor components to edit level designs.
 
 - Developed with Unity 2021.3.25
+
+
+https://github.com/DeryaDincer/Match3Game/assets/56023276/da1bb960-0ac8-413f-af91-316fcb5730d3
+
