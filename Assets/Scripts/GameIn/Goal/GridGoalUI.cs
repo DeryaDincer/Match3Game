@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GridGoalUI : PoolObject
+public class GridGoalUI : MonoBehaviour, IPoolable
 {
 
     [SerializeField] private ParticleSystem psGridGoal;
@@ -36,20 +36,13 @@ public class GridGoalUI : PoolObject
             goalAmountLeftText.text = goalAmount.ToString();
         }
     }
-
-    public override void OnCreated()
-    {
-        OnDeactivate();
-    }
-
-    public override void OnSpawn()
+    public void OnSpawned()
     {
         gameObject.SetActive(true);
     }
 
-    public override void OnDeactivate()
+    public void OnDespawned()
     {
-        //PoolManager.I.EnqueObject(this);
         transform.SetParent(null);
         gameObject.SetActive(false);
     }

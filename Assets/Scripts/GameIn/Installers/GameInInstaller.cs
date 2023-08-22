@@ -8,7 +8,13 @@ public class GameInInstaller : MonoInstaller
 {
     [Group] [SerializeField] private LevelSceneReferences LevelReferences;
     public UniTaskCompletionSource<bool> InitialSignal = new();
-    public Block blockPrefab;
+
+    [SerializeField] private Block blockPrefab;
+    [SerializeField] private GridGoalUI gridGoalUI;
+    [SerializeField] private FlyingSprite flyingSprite;
+
+    [SerializeField] private Transform gridGoalUIParent;
+    [SerializeField] private Transform flyingSpriteParent;
     public Transform parent;
     private void Awake()
     {
@@ -28,9 +34,23 @@ public class GameInInstaller : MonoInstaller
 
 
         Container.BindMemoryPool<Block, GenericMemoryPool<Block>>()
-.WithInitialSize(10) 
+.WithInitialSize(1) 
 .FromComponentInNewPrefab(blockPrefab)
 .UnderTransform(parent);
+
+
+        Container.BindMemoryPool<GridGoalUI, GenericMemoryPool<GridGoalUI>>()
+.WithInitialSize(1)
+.FromComponentInNewPrefab(gridGoalUI)
+.UnderTransform(gridGoalUIParent);
+
+
+//        Container.BindMemoryPool<FlyingSprite, GenericMemoryPool<FlyingSprite>>()
+//.WithInitialSize(1)
+//.FromComponentInNewPrefab(flyingSprite)
+//.UnderTransform(flyingSpriteParent);
+
+
 
         Container.Inject(this);
 

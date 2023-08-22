@@ -2,20 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyingSprite : PoolObject
+public class FlyingSprite : MonoBehaviour, IPoolable
 {
-    public override void OnCreated()
+  
+    public void OnSpawned()
     {
-        OnDeactivate();
+        gameObject.SetActive(true);
     }
-    public override void OnDeactivate()
+
+    public void OnDespawned()
     {
         transform.SetParent(null);
         gameObject.SetActive(false);
-    }
-   
-    public override void OnSpawn()
-    {
-        gameObject.SetActive(true);
     }
 }

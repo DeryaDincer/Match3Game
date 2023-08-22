@@ -18,21 +18,22 @@ public class GameInUIEffectController : MonoBehaviour
     private RectTransform onGridUnderUiLayerParent;
     private RectTransform overEverythingLayerParent;
     private List<RectTransform> pointReferenceRects;
-
-    GameInUIEffectControllerReferences References;
-    public void Construct(LevelSceneReferences references)
+    private GameInUIEffectControllerReferences References;
+    private GenericMemoryPool<FlyingSprite> memoryPool;
+    public void Construct(LevelSceneReferences references, GenericMemoryPool<FlyingSprite> memoryPool)
     {
         References = references.GameInUIEffectControllerReferences;
         onGridUnderUiLayerParent = References.OnGridUnderUiLayerParent;
         overEverythingLayerParent = References.OnGridUnderUiLayerParent;
         pointReferenceRects = References.PointReferenceRects;
+        this.memoryPool = memoryPool;
 
     }
 
     //block patladýgýnda block pozisyonundan bunu cagýr ve GoalUI a gitsin Target=GoalUI
     public void CreateCurvyFlyingSprite(Sprite sprite, Vector2 spriteSize, Vector2 spawnPos, Vector2 targetPos, CanvasLayer layer, Action onComplete = null)
     {
-        GameObject flyingObj = PoolManager.Instance.GetObject<FlyingSprite>().gameObject;
+        FlyingSprite flyingObj = memoryPool.Spawn();
         Debug.Log(flyingObj);
         flyingObj.transform.position = spawnPos;
         Debug.Log(overEverythingLayerParent);
@@ -40,30 +41,30 @@ public class GameInUIEffectController : MonoBehaviour
         flyingObj.GetComponent<RectTransform>().sizeDelta = spriteSize;
         flyingObj.GetComponent<Image>().sprite = sprite;
         Tween flyingTween = TweenHelper.CurvingMoveTo(flyingObj.transform, targetPos, onComplete, 1f, .2f, Ease.InOutCubic, Ease.InBack);
-        flyingTween.onComplete += () => flyingObj.GetComponent<PoolObject>().OnDeactivate();
+        flyingTween.onComplete += () => flyingObj.OnDespawned();
     }
 
     public void CreateLinearFlyingSprite(Sprite sprite, Vector2 spriteSize, Vector2 spawnPos, Vector2 targetPos, CanvasLayer layer, Action onComplete = null)
     {
-        GameObject flyingObj = PoolManager.Instance.GetObject<FlyingSprite>().gameObject;
+        FlyingSprite flyingObj = memoryPool.Spawn();
         flyingObj.transform.position = spawnPos;
         flyingObj.transform.SetParent(GetLayerParent(layer));
         flyingObj.GetComponent<RectTransform>().sizeDelta = spriteSize;
         flyingObj.GetComponent<Image>().sprite = sprite;
         Tween flyingTween = TweenHelper.LinearMoveTo(flyingObj.transform, targetPos, onComplete);
-        flyingTween.onComplete += () => flyingObj.GetComponent<PoolObject>().OnDeactivate();
+        flyingTween.onComplete += () => flyingObj.OnDespawned(); 
     }
 
     public void CreatePassingByFlyingText(string text, float fontSize, Vector2 spawnPos, Vector2 waitingPos, Vector2 targetPos, CanvasLayer layer, float moveDuration, float waitDuration, Action onComplete = null)
     {
-        GameObject flyingObj = PoolManager.Instance.GetObject<FlyingSprite>().gameObject;
+        FlyingSprite flyingObj = memoryPool.Spawn();
         flyingObj.transform.position = spawnPos;
         flyingObj.transform.SetParent(GetLayerParent(layer));
         TMPro.TMP_Text textComponent = flyingObj.GetComponent<TMPro.TMP_Text>();
         textComponent.text = text;
         textComponent.fontSize = fontSize;
         Tween flyingTween = TweenHelper.PassingBy(flyingObj.transform, spawnPos, waitingPos, targetPos, moveDuration, waitDuration, onComplete);
-        flyingTween.onComplete += () => flyingObj.GetComponent<PoolObject>().OnDeactivate();
+        flyingTween.onComplete += () => flyingObj.OnDespawned();
     }
 
     public RectTransform GetLayerParent(CanvasLayer layer)

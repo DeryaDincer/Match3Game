@@ -5,9 +5,10 @@ using Zenject;
 
 public class Block : BlockBase, IPoolable
 {
+   
     public void OnSpawned()
     {
-        gameObject.SetActive(true);
+       // gameObject.SetActive(true);
        // OnDespawned();
     }
 

@@ -20,7 +20,7 @@ public class GameInController : MonoBehaviour
 
     public async void InitialControllerAsync()
     {
-        await PoolManager.Instance.IsLoading.Task;
+       // await PoolManager.Instance.IsLoading.Task;
         await UniTask.Yield();
         await boardSpawnController.SpawnRandomBoard();
         await gameInCameraController.Initialized();

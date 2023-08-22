@@ -14,12 +14,14 @@ public class BlockGoalController
     private RectTransform gridUiElementsParent;
     private BlockGoalControllerReferences References;
     private BlockGoalControllerSettings Settings;
+    private GenericMemoryPool<GridGoalUI> memoryPool;
 
     [Inject]
-    public void Construct(LevelSceneReferences references)
+    public void Construct(LevelSceneReferences references, GenericMemoryPool<GridGoalUI> memoryPool)
     {
         this.References = references.BlockGoalControllerReferences;
         this.gridUiElementsParent = References.GoalObjectsParent;
+        this.memoryPool = memoryPool;
     }
   
 
@@ -82,12 +84,13 @@ public class BlockGoalController
         int idx = 0;
         foreach (Goal goal in GridGoals)
         {
-            GameObject newGo = PoolManager.Instance.GetObject<GridGoalUI>().gameObject;
+            // GameObject newGo = memoryPool.Spawn().gameObject;
+            GridGoalUI goalUi = memoryPool.Spawn();
             idx++;
-            newGo.name = "cengiz" + "-----" + idx;
-            newGo.transform.position = gridUiElementsParent.position;
-            newGo.transform.SetParent(gridUiElementsParent);
-            GridGoalUI goalUi = newGo.GetComponent<GridGoalUI>();
+            goalUi.gameObject.name = "-----" + idx;
+            goalUi.transform.position = gridUiElementsParent.position;
+            goalUi.transform.SetParent(gridUiElementsParent);
+     //       GridGoalUI goalUi = memoryPool.Spawn();
             goalUi.transform.localScale = Vector3.one;
             goalUi.SetupGoalUI(goal);
             GridGoalUiElements.Add(goalUi);
