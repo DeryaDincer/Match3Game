@@ -22,8 +22,12 @@ public class GameInInstaller : MonoInstaller
     }
     public override void InstallBindings()
     {
+        //Signals
+        //Container.BindInterfacesAndSelfTo<SignalBus>().AsSingle();
+
         //References
         Container.BindInstance(LevelReferences).AsSingle();
+
         //Controllers
         Container.Bind<BlockGoalController>().AsSingle();
         Container.Bind<BoardController>().AsSingle();
@@ -37,6 +41,7 @@ public class GameInInstaller : MonoInstaller
         Container.BindMemoryPool<Block, GenericMemoryPool<Block>>().FromComponentInNewPrefab(blockPrefab).UnderTransform(parent);
         Container.BindMemoryPool<GridGoalUI, GenericMemoryPool<GridGoalUI>>().FromComponentInNewPrefab(gridGoalUI).UnderTransform(gridGoalUIParent);
         Container.BindMemoryPool<FlyingSprite, GenericMemoryPool<FlyingSprite>>().FromComponentInNewPrefab(flyingSprite).UnderTransform(flyingSpriteParent);
+
 
         Container.Inject(this);
     }

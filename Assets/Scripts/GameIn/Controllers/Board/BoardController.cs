@@ -15,6 +15,7 @@ public class BoardController : IObserver, IDisposable
     private Board Board;
     private bool explosionState;
     private List<int> popBlocks = new List<int>();
+    private readonly SignalBus signalBus;
 
     public void BoardInject(Board board)
     {
@@ -22,12 +23,13 @@ public class BoardController : IObserver, IDisposable
     }
 
     [Inject]
-    public void Construct(LevelSceneReferences references, BoardSpawnController boardSpawnController, BlockAnimationController blockAnimationController)
+    public void Construct(LevelSceneReferences references, BoardSpawnController boardSpawnController, BlockAnimationController blockAnimationController/*, SignalBus signalBus*/)
     {
         this.settings = LevelController.GetCurrentLevel().SettingsInfo.BoardControllerSettings;
         this.references = references.BoardControllerReferences;
         this.boardSpawnController = boardSpawnController;
         this.blockAnimationController = blockAnimationController;
+       // 
     }
     public void AddRegister()
     {
@@ -104,6 +106,7 @@ public class BoardController : IObserver, IDisposable
         if (popBlocks.Count == 0)
         {
             explosionState = false;
+            signalBus.Fire(new MoveMadeSignal());
             cts.Cancel();
         }
         List<UniTask> taskList = new List<UniTask>();

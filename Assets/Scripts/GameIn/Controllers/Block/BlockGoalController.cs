@@ -7,13 +7,12 @@ using Zenject;
 
 public class BlockGoalController
 {
-    public List<Goal> GridGoals { get; private set; }
-    private List<GridGoalUI> GridGoalUiElements { get; set; }
+    private List<Goal> gridGoals { get;  set; }
+    private List<GridGoalUI> goalsUI { get; set; }
 
-    private AudioClip goalCollectAudio;
     private RectTransform gridUiElementsParent;
     private BlockGoalControllerReferences References;
-    private BlockGoalControllerSettings Settings;
+    private BlockGoalControllerSettings settings;
     private GenericMemoryPool<GridGoalUI> memoryPool;
     private GameInUIEffectController gameInUIEffectController;
 
@@ -25,14 +24,12 @@ public class BlockGoalController
         this.memoryPool = memoryPool;
         this.gameInUIEffectController = gameInUIEffectController;
     }
-  
 
     public async UniTask Initialized()
     {
-        this.Settings = LevelController.GetCurrentLevel().SettingsInfo.BlockGoalControllerSettings;
-        this.goalCollectAudio = Settings.GoalCollectAudio;
-        GridGoals = new List<Goal>(Settings.GridGoals);
-        GridGoalUiElements = new List<GridGoalUI>();
+        this.settings = LevelController.GetCurrentLevel().SettingsInfo.BlockGoalControllerSettings;
+        gridGoals = new List<Goal>(settings.GridGoals);
+        goalsUI = new List<GridGoalUI>();
         StartAllGoals();
         SpawnUiElements();
         await UniTask.Yield();
@@ -40,17 +37,21 @@ public class BlockGoalController
 
     public void OnEntityDestroyed(IBlockEntityTypeDefinition entityType)
     {
-        for (int i = 0; i < GridGoals.Count; i++)
+        for (int i = 0; i < gridGoals.Count; i++)
         {
-            Goal goal = GridGoals[i];
-            GridGoalUI goalUI = GridGoalUiElements[i];
+            Goal goal = gridGoals[i];
+            GridGoalUI goalUI = goalsUI[i];
 
             if (goal.IsCompleted) continue;
             if (goal.entityType == entityType)
             {
                 goal.DecreaseGoal();
                 CreateFlyingSpriteToGoal(entityType, goalUI);
-                if (goal.IsCompleted) CheckAllGoalsCompleted();
+                if (goal.IsCompleted)
+                {
+                    CheckAllGoalsCompleted();
+                    Debug.LogError("bitti");
+                }
             }
         }
     }
@@ -96,14 +97,14 @@ public class BlockGoalController
 
     private void StartAllGoals()
     {
-        foreach (Goal goal in GridGoals) goal.StartGoal();
+        foreach (Goal goal in gridGoals) goal.StartGoal();
     }
    
 
     private void SpawnUiElements()
     {
         int idx = 0;
-        foreach (Goal goal in GridGoals)
+        foreach (Goal goal in gridGoals)
         {
             // GameObject newGo = memoryPool.Spawn().gameObject;
             GridGoalUI goalUi = memoryPool.Spawn();
@@ -114,14 +115,14 @@ public class BlockGoalController
      //       GridGoalUI goalUi = memoryPool.Spawn();
             goalUi.transform.localScale = Vector3.one;
             goalUi.SetupGoalUI(goal);
-            GridGoalUiElements.Add(goalUi);
+            goalsUI.Add(goalUi);
         }
         LayoutRebuilder.ForceRebuildLayoutImmediate(gridUiElementsParent);
     }
 
     private void CheckAllGoalsCompleted()
     {
-        foreach (Goal goal in GridGoals) if (!goal.IsCompleted) return;
+        foreach (Goal goal in gridGoals) if (!goal.IsCompleted) return;
        //bitir
     }
 }

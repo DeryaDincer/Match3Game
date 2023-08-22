@@ -9,7 +9,7 @@ public class BlockMoveController
    
    
     public static readonly int MinGroupSizeForExplosion = 2;
-    public int MovesLeft { get; private set; }
+    private int moveCount { get; set; }
     private TextMeshProUGUI movesLeftText;
 
     [Inject]
@@ -24,7 +24,7 @@ public class BlockMoveController
 
     public async UniTask Initialized()
     {
-        MovesLeft = LevelController.GetCurrentLevel().SettingsInfo.BlockMoveControllerSettings.MoveCount;
+        moveCount = LevelController.GetCurrentLevel().SettingsInfo.BlockMoveControllerSettings.MoveCount;
         UpdateMovesLeftUiText();
         await UniTask.Yield();
     }
@@ -32,31 +32,31 @@ public class BlockMoveController
 
     public bool TryMakeMatchMove(Block blockEntity)
     {
-        if (MovesLeft == 0) return false;
+        if (moveCount == 0) return false;
 
         //count
         //if (blockEntity.CurrentMatchGroup.Count < MinGroupSizeForExplosion) return false;
 
-        MovesLeft--;
+        moveCount--;
         UpdateMovesLeftUiText();
         return true;
     }
 
     public void ClickedPowerUp()
     {
-        MovesLeft--;
+        moveCount--;
         UpdateMovesLeftUiText();
     }
    
 
     private void OnGridReadyForNextMove()
     {
-        if (MovesLeft != 0) return;
+        if (moveCount != 0) return;
        //Failed
     }
     private void UpdateMovesLeftUiText()
     {
-        movesLeftText.text = MovesLeft.ToString();
+        movesLeftText.text = moveCount.ToString();
     }
 
 
