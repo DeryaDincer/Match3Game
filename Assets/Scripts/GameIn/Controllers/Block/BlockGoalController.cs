@@ -15,13 +15,15 @@ public class BlockGoalController
     private BlockGoalControllerReferences References;
     private BlockGoalControllerSettings Settings;
     private GenericMemoryPool<GridGoalUI> memoryPool;
+    private GameInUIEffectController gameInUIEffectController;
 
     [Inject]
-    public void Construct(LevelSceneReferences references, GenericMemoryPool<GridGoalUI> memoryPool)
+    public void Construct(LevelSceneReferences references, GenericMemoryPool<GridGoalUI> memoryPool, GameInUIEffectController gameInUIEffectController)
     {
         this.References = references.BlockGoalControllerReferences;
         this.gridUiElementsParent = References.GoalObjectsParent;
         this.memoryPool = memoryPool;
+        this.gameInUIEffectController = gameInUIEffectController;
     }
   
 
@@ -36,10 +38,8 @@ public class BlockGoalController
         await UniTask.Yield();
     }
 
-    public void OnEntityDestroyed(IBlockEntity entity, IBlockEntityTypeDefinition entityType)
+    public void OnEntityDestroyed(IBlockEntityTypeDefinition entityType)
     {
-        Debug.LogError("girdi");
-        return;
         for (int i = 0; i < GridGoals.Count; i++)
         {
             Goal goal = GridGoals[i];
@@ -49,11 +49,32 @@ public class BlockGoalController
             if (goal.entityType == entityType)
             {
                 goal.DecreaseGoal();
-              //  CreateFlyingSpriteToGoal(entity, goalUI);
+                CreateFlyingSpriteToGoal(entityType, goalUI);
                 if (goal.IsCompleted) CheckAllGoalsCompleted();
             }
         }
     }
+
+
+    public void CreateFlyingSpriteToGoal(IBlockEntityTypeDefinition entity, GridGoalUI goalUI)
+    {
+        int goalAmount = goalUI.Goal.GoalLeft;
+
+
+        //RectTransformUtility.ScreenPointToLocalPointInRectangle(uiImageRectTransform.parent as RectTransform, uiPosition, null, out Vector2 anchoredPosition);
+        //uiImageRectTransform.anchoredPosition = anchoredPosition;
+
+        gameInUIEffectController.CreateCurvyFlyingSprite(
+            entity.DefaultEntitySprite,
+            goalUI.transform.position,
+            () => OnFlyingSpriteReachGoal(goalAmount, goalUI));
+
+            //gameInUIEffectController.ca
+            //UIEffectManager.CanvasLayer.OverEverything,
+            //() => OnFlyingSpriteReachGoal(goalAmount, goalUI));
+    }
+
+
 
     //public void CreateFlyingSpriteToGoal(IBlockEntity entity, GridGoalUI goalUI)
     //{

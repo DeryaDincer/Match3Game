@@ -31,29 +31,14 @@ public class GameInInstaller : MonoInstaller
         Container.Bind<BlockMoveController>().AsSingle();
         Container.Bind<BlockAnimationController>().AsSingle();
         Container.Bind<GameInCameraController>().AsSingle();
+        Container.Bind<GameInUIEffectController>().AsSingle();
 
-
-        Container.BindMemoryPool<Block, GenericMemoryPool<Block>>()
-.WithInitialSize(1) 
-.FromComponentInNewPrefab(blockPrefab)
-.UnderTransform(parent);
-
-
-        Container.BindMemoryPool<GridGoalUI, GenericMemoryPool<GridGoalUI>>()
-.WithInitialSize(1)
-.FromComponentInNewPrefab(gridGoalUI)
-.UnderTransform(gridGoalUIParent);
-
-
-//        Container.BindMemoryPool<FlyingSprite, GenericMemoryPool<FlyingSprite>>()
-//.WithInitialSize(1)
-//.FromComponentInNewPrefab(flyingSprite)
-//.UnderTransform(flyingSpriteParent);
-
-
+        //Pooling
+        Container.BindMemoryPool<Block, GenericMemoryPool<Block>>().FromComponentInNewPrefab(blockPrefab).UnderTransform(parent);
+        Container.BindMemoryPool<GridGoalUI, GenericMemoryPool<GridGoalUI>>().FromComponentInNewPrefab(gridGoalUI).UnderTransform(gridGoalUIParent);
+        Container.BindMemoryPool<FlyingSprite, GenericMemoryPool<FlyingSprite>>().FromComponentInNewPrefab(flyingSprite).UnderTransform(flyingSpriteParent);
 
         Container.Inject(this);
-
     }
 
 }

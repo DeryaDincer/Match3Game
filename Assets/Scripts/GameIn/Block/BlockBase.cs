@@ -20,27 +20,13 @@ public class BlockBase : MonoBehaviour, IBlockEntity
     [SerializeField] protected SpriteRenderer entityRenderer; 
 
     // Unity event for entity destruction
-    public UnityEvent<IBlockEntity, IBlockEntityTypeDefinition> OnEntityDestroyed { get; private set; } = new UnityEvent<IBlockEntity, IBlockEntityTypeDefinition>();
+    public UnityEvent<IBlockEntityTypeDefinition> OnEntityDestroyed { get; private set; } = new UnityEvent<IBlockEntityTypeDefinition>();
     public IBlockEntityTypeDefinition EntityType { get; protected set; }
 
-   // [Inject] private BlockGoalController blockGoalController;
-
-    private void OnEnable()
-    {
-       // OnEntityDestroyed.AddListener(blockGoalController.OnEntityDestroyed);
-    }
-  
-    private void OnDisable()
-    {
-       // OnEntityDestroyed.RemoveListener(blockGoalController.OnEntityDestroyed);
-
-    }
     // Invoked when the entity is destroyed
     public virtual void OnEntityDestroy()
     {
-
-        Debug.LogError("destroy");
-        OnEntityDestroyed.Invoke(this, EntityType);
+        OnEntityDestroyed.Invoke(EntityType);
     }
 
     // Setup the entity with the given block type

@@ -4,8 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
-public class GameInUIEffectController : MonoBehaviour
+public class GameInUIEffectController 
 {
 
     public enum CanvasLayer
@@ -20,6 +21,8 @@ public class GameInUIEffectController : MonoBehaviour
     private List<RectTransform> pointReferenceRects;
     private GameInUIEffectControllerReferences References;
     private GenericMemoryPool<FlyingSprite> memoryPool;
+
+    [Inject]
     public void Construct(LevelSceneReferences references, GenericMemoryPool<FlyingSprite> memoryPool)
     {
         References = references.GameInUIEffectControllerReferences;
@@ -31,16 +34,17 @@ public class GameInUIEffectController : MonoBehaviour
     }
 
     //block patladýgýnda block pozisyonundan bunu cagýr ve GoalUI a gitsin Target=GoalUI
-    public void CreateCurvyFlyingSprite(Sprite sprite, Vector2 spriteSize, Vector2 spawnPos, Vector2 targetPos, CanvasLayer layer, Action onComplete = null)
+    public void CreateCurvyFlyingSprite(Sprite sprite, Vector2 targetPos,  Action onComplete = null)
     {
         FlyingSprite flyingObj = memoryPool.Spawn();
-        Debug.Log(flyingObj);
-        flyingObj.transform.position = spawnPos;
-        Debug.Log(overEverythingLayerParent);
-        flyingObj.transform.SetParent(overEverythingLayerParent);
-        flyingObj.GetComponent<RectTransform>().sizeDelta = spriteSize;
+
+        RectTransform rect = flyingObj.GetComponent<RectTransform>();
+        rect.sizeDelta = new Vector2(120,120);
+        rect.anchoredPosition = new Vector2(0, 350); 
+
         flyingObj.GetComponent<Image>().sprite = sprite;
-        Tween flyingTween = TweenHelper.CurvingMoveTo(flyingObj.transform, targetPos, onComplete, 1f, .2f, Ease.InOutCubic, Ease.InBack);
+       
+        Tween flyingTween = TweenHelper.CurvingMoveTo(flyingObj.transform, targetPos, onComplete, .5f, .2f, Ease.InOutCubic, Ease.InBack);
         flyingTween.onComplete += () => flyingObj.OnDespawned();
     }
 
