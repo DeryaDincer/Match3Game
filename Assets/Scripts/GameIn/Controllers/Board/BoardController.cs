@@ -115,7 +115,7 @@ public class BoardController : IObserver, IDisposable
 
         for (int i = 0; i < popBlocks.Count; i++)
         {
-            Board.ActiveBlocks[popBlocks[i]].OnDeactivate();
+            Board.ActiveBlocks[popBlocks[i]].OnDespawned();
             Board.ActiveBlocks[popBlocks[i]] = null;
         }
 

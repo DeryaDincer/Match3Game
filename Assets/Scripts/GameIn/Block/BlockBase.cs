@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BlockBase : PoolObject, IBlockEntity
+public class BlockBase : MonoBehaviour, IBlockEntity
 {
     // Block properties
     public int BlockID => blockID;
@@ -20,18 +20,27 @@ public class BlockBase : PoolObject, IBlockEntity
     [SerializeField] protected SpriteRenderer entityRenderer; 
 
     // Unity event for entity destruction
-    public UnityEvent<IBlockEntity> OnEntityDestroyed { get; private set; } = new UnityEvent<IBlockEntity>();
+    public UnityEvent<IBlockEntity, IBlockEntityTypeDefinition> OnEntityDestroyed { get; private set; } = new UnityEvent<IBlockEntity, IBlockEntityTypeDefinition>();
     public IBlockEntityTypeDefinition EntityType { get; protected set; }
 
+   // [Inject] private BlockGoalController blockGoalController;
 
-    private void test()
+    private void OnEnable()
     {
-       // OnEntityDestroyed.AddListener(goalController.OnEntityDestroyed);
+       // OnEntityDestroyed.AddListener(blockGoalController.OnEntityDestroyed);
+    }
+  
+    private void OnDisable()
+    {
+       // OnEntityDestroyed.RemoveListener(blockGoalController.OnEntityDestroyed);
+
     }
     // Invoked when the entity is destroyed
     public virtual void OnEntityDestroy()
     {
-        OnEntityDestroyed.Invoke(this);
+
+        Debug.LogError("destroy");
+        OnEntityDestroyed.Invoke(this, EntityType);
     }
 
     // Setup the entity with the given block type
@@ -85,24 +94,25 @@ public class BlockBase : PoolObject, IBlockEntity
     }
 
     // Deactivate the object
-    public override void OnDeactivate()
-    {
-        gameObject.SetActive(false);
-    }
+    //public override void OnDeactivate()
+    //{
+    //    gameObject.SetActive(false);
+    //}
 
     // Called when the object is spawned
-    public override void OnSpawn()
-    {
-        OnDeactivate();
-    }
+    //public override void OnSpawn()
+    //{
+    //    OnDeactivate();
+    //}
 
     // Called when the object is created
-    public override void OnCreated()
-    {
-        transform.localScale = Vector3.one;
-        gameObject.SetActive(true);
-    }
+    //public override void OnCreated()
+    //{
+    //    transform.localScale = Vector3.one;
+    //    gameObject.SetActive(true);
+    //}
 
+   
     // Set the target position based on the BlockID
     public void SetTargetPositionToID(Board board)
     {
@@ -142,4 +152,6 @@ public class BlockBase : PoolObject, IBlockEntity
     {
         entityRenderer.enabled = active;
     }
+
+ 
 }

@@ -12,13 +12,15 @@ public class BoardSpawnController
     private IBlockEntityTypeDefinition[] blockEntityTypeDefinitions;
     private GridStartLayout startLayout;
     private BoardController BoardController;
+    private GenericMemoryPool<Block> blockMemoryPool;
     
     [Inject]
-    public void Construct(LevelSceneReferences references, BoardController boardController)
+    public void Construct(LevelSceneReferences references, BoardController boardController, GenericMemoryPool<Block> blockMemoryPool)
     {
         // Initialize references and settings
         this.references = references.BoardSpawnControllerReferences;
         this.BoardController = boardController;
+        this.blockMemoryPool = blockMemoryPool;
     }
 
     // Spawn a random game board
@@ -98,7 +100,8 @@ public class BoardSpawnController
                 IBlockEntityTypeDefinition randomEntityType = blockEntityTypeDefinitions[Random.Range(0, blockEntityTypeDefinitions.Length)];
 
                 // Create and setup a new block
-                Block block = PoolManager.Instance.GetObject<Block>();
+                Block block = blockMemoryPool.Spawn();
+               // Block block = PoolManager.Instance.GetObject<Block>();
                 block.SetupEntity(randomEntityType);
                 Board.ActiveBlocks[i] = block;
                 spawnBlock.Add(block);
@@ -117,8 +120,10 @@ public class BoardSpawnController
         {
             IBlockEntityTypeDefinition randomEntityType = null;
             randomEntityType = blockEntityTypeDefinitions[Random.Range(0, blockEntityTypeDefinitions.Length)];
-            Block block = PoolManager.Instance.GetObject<Block>();
-
+            //Block block = PoolManager.Instance.GetObject<Block>();
+         
+           // Block block = blockFactory.Create();
+            Block block = blockMemoryPool.Spawn();
             // If the block layout specifies a block, use that type and set it as situated
             if (startLayout.BlockDatas.Blocks[i] != null)
             {

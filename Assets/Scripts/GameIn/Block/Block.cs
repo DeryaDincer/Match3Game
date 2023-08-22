@@ -1,21 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class Block : BlockBase
+public class Block : BlockBase, IPoolable
 {
-    public override void OnDeactivate()
-    {
-        gameObject.SetActive(false);
-    }
-
-    public override void OnSpawn()
+    public void OnSpawned()
     {
         gameObject.SetActive(true);
+       // OnDespawned();
     }
 
-    public override void OnCreated()
+    public void OnDespawned()
     {
-        OnDeactivate();
+        //gameObject.SetActive(false);
     }
 }

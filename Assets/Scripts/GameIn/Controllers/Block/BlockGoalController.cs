@@ -34,25 +34,26 @@ public class BlockGoalController
         await UniTask.Yield();
     }
 
-    //public void OnEntityDestroyed(IBlockEntity entity)
-    //{
-    //    entity.
-    //    for (int i = 0; i < GridGoals.Count; i++)
-    //    {
-    //        Goal goal = GridGoals[i];
-    //        GridGoalUI goalUI = GridGoalUiElements[i];
+    public void OnEntityDestroyed(IBlockEntity entity, IBlockEntityTypeDefinition entityType)
+    {
+        Debug.LogError("girdi");
+        return;
+        for (int i = 0; i < GridGoals.Count; i++)
+        {
+            Goal goal = GridGoals[i];
+            GridGoalUI goalUI = GridGoalUiElements[i];
 
-    //        if (goal.IsCompleted) continue;
-    //        if (goal.entityType == entity.E)
-    //        {
-    //            goal.DecreaseGoal();
-    //            CreateFlyingSpriteToGoal(entity, goalUI);
-    //            if (goal.IsCompleted) CheckAllGoalsCompleted();
-    //        }
-    //    }
-    //}
+            if (goal.IsCompleted) continue;
+            if (goal.entityType == entityType)
+            {
+                goal.DecreaseGoal();
+              //  CreateFlyingSpriteToGoal(entity, goalUI);
+                if (goal.IsCompleted) CheckAllGoalsCompleted();
+            }
+        }
+    }
 
-    //public void CreateFlyingSpriteToGoal(Ibloc entity, GridGoalUI goalUI)
+    //public void CreateFlyingSpriteToGoal(IBlockEntity entity, GridGoalUI goalUI)
     //{
     //    int goalAmount = goalUI.Goal.GoalLeft;
     //    UIEffectManager.I.CreateCurvyFlyingSprite(
