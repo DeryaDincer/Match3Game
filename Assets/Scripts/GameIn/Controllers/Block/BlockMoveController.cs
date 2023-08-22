@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,19 +6,65 @@ using UnityEngine;
 using Zenject;
 public class BlockMoveController 
 {
-    private TextMeshProUGUI moveText = null;
-    [SerializeField] private int moveCount = 0;
-    private GameInController GameInController = null;
    
+   
+    public static readonly int MinGroupSizeForExplosion = 2;
+    public int MovesLeft { get; private set; }
+    private TextMeshProUGUI movesLeftText;
 
     [Inject]
-    public void Construct(LevelSettings settings, LevelSceneReferences references, GameInController gameInController)
+    public void Construct(LevelSceneReferences references)
     {
-        GameInController = gameInController;
+        this.movesLeftText = references.BlockMoveControllerReferences.MovesLeftText;
+      
        // moveText = references.MoveText;
-    
         //UpdateMoveText();
     }
+
+
+    public async UniTask Initialized()
+    {
+        MovesLeft = LevelController.GetCurrentLevel().SettingsInfo.BlockMoveControllerSettings.MoveCount;
+        UpdateMovesLeftUiText();
+        await UniTask.Yield();
+    }
+
+   
+
+   
+
+    public bool TryMakeMatchMove(Block blockEntity)
+    {
+        if (MovesLeft == 0) return false;
+
+        //count
+        //if (blockEntity.CurrentMatchGroup.Count < MinGroupSizeForExplosion) return false;
+
+        MovesLeft--;
+        UpdateMovesLeftUiText();
+        return true;
+    }
+
+    public void ClickedPowerUp()
+    {
+        MovesLeft--;
+        UpdateMovesLeftUiText();
+    }
+   
+
+    private void OnGridReadyForNextMove()
+    {
+        if (MovesLeft != 0) return;
+       //Failed
+    }
+    private void UpdateMovesLeftUiText()
+    {
+        movesLeftText.text = MovesLeft.ToString();
+    }
+
+
+
+
     //public void SetClickCell(EmptyCell EmptyCell)
     //{
     //    if (!EmptyCell)
@@ -29,7 +76,7 @@ public class BlockMoveController
     //        return;
     //    }
     //}
-   
+
 
     //private void FinishMoveCount()
     //{

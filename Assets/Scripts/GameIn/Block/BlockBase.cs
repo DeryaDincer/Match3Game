@@ -17,12 +17,17 @@ public class BlockBase : PoolObject, IBlockEntity
     private Vector3 targetPosition;
     private Vector3 targetBoardSpawnPosition;
 
-    [SerializeField] protected SpriteRenderer entityRenderer;
+    [SerializeField] protected SpriteRenderer entityRenderer; 
 
     // Unity event for entity destruction
     public UnityEvent<IBlockEntity> OnEntityDestroyed { get; private set; } = new UnityEvent<IBlockEntity>();
     public IBlockEntityTypeDefinition EntityType { get; protected set; }
 
+
+    private void test()
+    {
+       // OnEntityDestroyed.AddListener(goalController.OnEntityDestroyed);
+    }
     // Invoked when the entity is destroyed
     public virtual void OnEntityDestroy()
     {

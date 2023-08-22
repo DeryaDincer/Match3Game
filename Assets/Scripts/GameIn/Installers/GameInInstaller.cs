@@ -18,13 +18,13 @@ public class GameInInstaller : MonoInstaller
         //References
         Container.BindInstance(LevelReferences).AsSingle();
         //Controllers
-
+        Container.Bind<BlockGoalController>().AsSingle();
         Container.Bind<BoardController>().AsSingle();
         Container.Bind<BoardSpawnController>().AsSingle();
-        Container.Bind<BlockGoalController>().AsSingle();
         Container.Bind<BlockMoveController>().AsSingle();
         Container.Bind<BlockAnimationController>().AsSingle();
         Container.Bind<GameInCameraController>().AsSingle();
+        
 
         Container.Inject(this);
 

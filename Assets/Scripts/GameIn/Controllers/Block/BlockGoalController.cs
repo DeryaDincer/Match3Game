@@ -1,37 +1,49 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
 
-public class BlockGoalController 
+public class BlockGoalController
 {
-    //public List<Goal> GridGoals { get; private set; }
-    //private List<GridGoalUI> GridGoalUiElements { get; set; }
+    public List<Goal> GridGoals { get; private set; }
+    private List<GridGoalUI> GridGoalUiElements { get; set; }
 
-    //private AudioClip goalCollectAudio;
-    //private RectTransform gridUiElementsParent;
+    private AudioClip goalCollectAudio;
+    private RectTransform gridUiElementsParent;
+    private BlockGoalControllerReferences References;
+    private BlockGoalControllerSettings Settings;
 
-    //public GridGoalController(GridGoalControllerSettings settings, GridGoalControllerReferences references)
+    [Inject]
+    public void Construct(LevelSceneReferences references)
+    {
+        this.References = references.BlockGoalControllerReferences;
+        this.gridUiElementsParent = References.GoalObjectsParent;
+    }
+  
+
+    public async UniTask Initialized()
+    {
+        this.Settings = LevelController.GetCurrentLevel().SettingsInfo.BlockGoalControllerSettings;
+        this.goalCollectAudio = Settings.GoalCollectAudio;
+        GridGoals = new List<Goal>(Settings.GridGoals);
+        GridGoalUiElements = new List<GridGoalUI>();
+        StartAllGoals();
+        SpawnUiElements();
+        await UniTask.Yield();
+    }
+
+    //public void OnEntityDestroyed(IBlockEntity entity)
     //{
-    //    Instance = this;
-    //    this.gridUiElementsParent = references.GoalObjectsParent;
-    //    this.goalCollectAudio = settings.GoalCollectAudio;
-    //    GridGoals = new List<Goal>(settings.GridGoals);
-
-    //    GridGoalUiElements = new List<GridGoalUI>();
-    //    StartAllGoals();
-    //    TryLoadGoalSaveData();
-    //    SpawnUiElements();
-    //}
-
-    //public void OnEntityDestroyed(IGridEntity entity)
-    //{
+    //    entity.
     //    for (int i = 0; i < GridGoals.Count; i++)
     //    {
     //        Goal goal = GridGoals[i];
     //        GridGoalUI goalUI = GridGoalUiElements[i];
 
     //        if (goal.IsCompleted) continue;
-    //        if (goal.entityType.GridEntityTypeName == entity.EntityType.GridEntityTypeName)
+    //        if (goal.entityType == entity.E)
     //        {
     //            goal.DecreaseGoal();
     //            CreateFlyingSpriteToGoal(entity, goalUI);
@@ -40,7 +52,7 @@ public class BlockGoalController
     //    }
     //}
 
-    //public void CreateFlyingSpriteToGoal(IGridEntity entity, GridGoalUI goalUI)
+    //public void CreateFlyingSpriteToGoal(Ibloc entity, GridGoalUI goalUI)
     //{
     //    int goalAmount = goalUI.Goal.GoalLeft;
     //    UIEffectManager.I.CreateCurvyFlyingSprite(
@@ -52,50 +64,39 @@ public class BlockGoalController
     //        () => OnFlyingSpriteReachGoal(goalAmount, goalUI));
     //}
 
-    //private void OnFlyingSpriteReachGoal(int goalAmount, GridGoalUI goalUI)
-    //{
-    //    //AudioManager.Instance.PlayAudio(goalCollectAudio, AudioManager.PlayMode.Single, 1);
-    //    goalUI.SetGoalAmount(goalAmount);
-    //}
+    private void OnFlyingSpriteReachGoal(int goalAmount, GridGoalUI goalUI)
+    {
+        //AudioManager.Instance.PlayAudio(goalCollectAudio, AudioManager.PlayMode.Single, 1);
+        goalUI.SetGoalAmount(goalAmount);
+    }
 
-    //private void StartAllGoals()
-    //{
-    //    foreach (Goal goal in GridGoals) goal.StartGoal();
-    //}
+    private void StartAllGoals()
+    {
+        foreach (Goal goal in GridGoals) goal.StartGoal();
+    }
+   
 
-    //private void TryLoadGoalSaveData()
-    //{
-    //    if (!LevelSaveData.Data.HasLevelSaved) return;
-    //    for (int i = 0; i < GridGoals.Count; i++)
-    //    {
+    private void SpawnUiElements()
+    {
+        int idx = 0;
+        foreach (Goal goal in GridGoals)
+        {
+            GameObject newGo = PoolManager.Instance.GetObject<GridGoalUI>().gameObject;
+            idx++;
+            newGo.name = "cengiz" + "-----" + idx;
+            newGo.transform.position = gridUiElementsParent.position;
+            newGo.transform.SetParent(gridUiElementsParent);
+            GridGoalUI goalUi = newGo.GetComponent<GridGoalUI>();
+            goalUi.transform.localScale = Vector3.one;
+            goalUi.SetupGoalUI(goal);
+            GridGoalUiElements.Add(goalUi);
+        }
+        LayoutRebuilder.ForceRebuildLayoutImmediate(gridUiElementsParent);
+    }
 
-    //        Goal goal = GridGoals[i];
-    //        goal.LoadGoalAmountLeft(LevelSaveData.Data.GoalAmountsLeft[i]);
-    //        Debug.Log(LevelSaveData.Data.GoalAmountsLeft[i]);
-    //    }
-    //}
-
-    //private void SpawnUiElements()
-    //{
-    //    int idx = 0;
-    //    foreach (Goal goal in GridGoals)
-    //    {
-    //        GameObject newGo = PoolManager.I.GetObject<GridGoalUI>().gameObject;
-    //        idx++;
-    //        newGo.name = "cengiz" + "-----" + idx;
-    //        newGo.transform.position = gridUiElementsParent.position;
-    //        newGo.transform.SetParent(gridUiElementsParent);
-    //        GridGoalUI goalUi = newGo.GetComponent<GridGoalUI>();
-    //        goalUi.transform.localScale = Vector3.one;
-    //        goalUi.SetupGoalUI(goal);
-    //        GridGoalUiElements.Add(goalUi);
-    //    }
-    //    LayoutRebuilder.ForceRebuildLayoutImmediate(gridUiElementsParent);
-    //}
-
-    //private void CheckAllGoalsCompleted()
-    //{
-    //    foreach (Goal goal in GridGoals) if (!goal.IsCompleted) return;
-    //    GameManager.I.CurrentLevel.LevelCleared();
-    //}
+    private void CheckAllGoalsCompleted()
+    {
+        foreach (Goal goal in GridGoals) if (!goal.IsCompleted) return;
+       //bitir
+    }
 }

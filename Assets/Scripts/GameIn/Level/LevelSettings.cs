@@ -9,9 +9,11 @@ public class LevelSettings : ScriptableObject
     [Group] [SerializeField] private BlockAnimationControllerSettings blockAnimationControllerSettings;
     [Group] [SerializeField] private BlockGoalControllerSettings blockGoalControllerSettings;
     [Group] [SerializeField] private BlockMoveControllerSettings blockMoveControllerSettings;
+    
 
     public BoardControllerSettings BoardControllerSettings => boardControllerSettings;
     public BoardSpawnControllerSettings BoardSpawnControllerSettings => boardSpawnControllerSettings;
     public BlockAnimationControllerSettings BlockAnimationControllerSettings => blockAnimationControllerSettings;
     public BlockMoveControllerSettings BlockMoveControllerSettings => blockMoveControllerSettings;
+    public BlockGoalControllerSettings BlockGoalControllerSettings => blockGoalControllerSettings;
 }

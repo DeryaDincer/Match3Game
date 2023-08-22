@@ -23,6 +23,8 @@ public static partial class LevelController
         public BoardControllerSettings BoardControllerSettings;
         public BoardSpawnControllerSettings BoardSpawnControllerSettings;
         public BlockAnimationControllerSettings BlockAnimationControllerSettings;
+        public BlockGoalControllerSettings BlockGoalControllerSettings;
+        public BlockMoveControllerSettings BlockMoveControllerSettings;
     }
 }
 public static partial class LevelController
@@ -58,6 +60,8 @@ public static partial class LevelController
             levelData.Levels[i].SettingsInfo.BoardControllerSettings = LevelSettings[i].BoardControllerSettings;
             levelData.Levels[i].SettingsInfo.BoardSpawnControllerSettings = LevelSettings[i].BoardSpawnControllerSettings;
             levelData.Levels[i].SettingsInfo.BlockAnimationControllerSettings = LevelSettings[i].BlockAnimationControllerSettings;
+            levelData.Levels[i].SettingsInfo.BlockGoalControllerSettings = LevelSettings[i].BlockGoalControllerSettings;
+            levelData.Levels[i].SettingsInfo.BlockMoveControllerSettings = LevelSettings[i].BlockMoveControllerSettings;
         }
 
         //currentLevel = GetLevelByID(SaveLoadManager.GetTotalLevel());
