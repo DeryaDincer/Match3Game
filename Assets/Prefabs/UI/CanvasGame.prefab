@@ -585,6 +585,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 656524670954767220}
     m_Modifications:
+    - target: {fileID: 4009837752333459472, guid: a9bbbbd0a130eea47a8d38d4d6a4c25b, type: 3}
+      propertyPath: m_fontSize
+      value: 68.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4009837752333459472, guid: a9bbbbd0a130eea47a8d38d4d6a4c25b, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: f15da628f5b6ea54e84b236e249fea6a, type: 2}
+    - target: {fileID: 4009837752333459472, guid: a9bbbbd0a130eea47a8d38d4d6a4c25b, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 8075576419003000347, guid: f15da628f5b6ea54e84b236e249fea6a, type: 2}
     - target: {fileID: 4009837752333459473, guid: a9bbbbd0a130eea47a8d38d4d6a4c25b, type: 3}
       propertyPath: m_SortingLayer
       value: 0
@@ -677,6 +689,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8973785053601060860, guid: a9bbbbd0a130eea47a8d38d4d6a4c25b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 915197c10c5fe9c4a8f6f9c9eca47dd9, type: 3}
     - target: {fileID: 8973785053601060861, guid: a9bbbbd0a130eea47a8d38d4d6a4c25b, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -109

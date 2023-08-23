@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections;
 
+#if UNITY_EDITOR
 // Custom property drawer for the GridStartLayout class.
 [CustomPropertyDrawer(typeof(GridStartLayout))]
 public class ArrayPropertyDrawer : PropertyDrawer
@@ -63,3 +64,4 @@ public class ArrayPropertyDrawer : PropertyDrawer
         return cellSize * (height + 2); // Add extra height for label and spacing.
     }
 }
+#endif

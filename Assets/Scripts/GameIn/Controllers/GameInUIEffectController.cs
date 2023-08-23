@@ -40,7 +40,7 @@ public class GameInUIEffectController : IInitializable
         FlyingSprite flyingObj = memoryPool.Spawn();
         RectTransform rect = flyingObj.GetComponent<RectTransform>();
         rect.sizeDelta = new Vector2(120, 120);
-        rect.anchoredPosition = new Vector2(0, 350);
+        rect.anchoredPosition = new Vector2(0, 400);
         flyingObj.GetComponent<Image>().sprite = sprite;
 
         Tween flyingTween = TweenHelper.CurvingMoveTo(flyingObj.transform, targetPos, onComplete, .5f, .2f, Ease.InOutCubic, Ease.InBack);
