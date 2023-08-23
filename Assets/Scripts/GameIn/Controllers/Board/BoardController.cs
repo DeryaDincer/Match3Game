@@ -88,14 +88,17 @@ public class BoardController : IInitializable, IObserver, IDisposable
             await Task1;
             token.ThrowIfCancellationRequested();
 
-            await UniTask.WhenAll(ShiftBlocks(cancellationTokenSource), SpawnNullBlocks(cancellationTokenSource));
-
             if (Task3.Status == UniTaskStatus.Succeeded)
             {
-                await InitialControllerAsync();
+                await UniTask.WhenAll(ShiftBlocks(cancellationTokenSource), SpawnNullBlocks(cancellationTokenSource));
+            }
+            else
+            {
+                cancellationTokenSource.Cancel(); // Ýç içe geçmiþ UniTask'leri iptal et
             }
         }
     }
+
 
     // Swap two blocks on the board.
     private async UniTask SwapBlocksInBoard(int index1, int index2)
@@ -151,7 +154,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
         for (int i = 0; i < spawnBlocks.Count; i++)
             spawnBlocks[i].SetActiveRenderer(false);
 
-        await SetBlocksMoveAnimation(spawnBlocks, 100, blockSetStartPosition: true);
+        await SetBlocksMoveAnimation(spawnBlocks, 150, blockSetStartPosition: true);
     }
 
     // Set the move animation for blocks.
@@ -175,7 +178,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
     private void OnGameEndSignal(GameEndSignal signal)
     {
         gameEndState = true;
-        if(cancellationTokenSource != null) cancellationTokenSource.Cancel();
+        cancellationTokenSource.Cancel();
         cancellationTokenSource = null;
     }
 }
