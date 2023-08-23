@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class GameInCameraController
+public class GameInCameraController: IInitializable
 {
     private CinemachineVirtualCamera vCam;
     private float cameraSizeOffset = .75f;
@@ -19,13 +19,12 @@ public class GameInCameraController
         this.references = references.GameInCameraControllerReferences;
        
     }
-    public async UniTask Initialized()
+    public void Initialize()
     {
         width = (int)LevelController.GetCurrentLevel().SettingsInfo.BoardSpawnControllerSettings.Width;
         height = (int)LevelController.GetCurrentLevel().SettingsInfo.BoardSpawnControllerSettings.Height;
         this.vCam = references.VirtualCamera;
         SetCamera();
-        await UniTask.Yield();
     }
 
     private void SetCamera()

@@ -6,7 +6,7 @@ public readonly struct MoveMadeSignal
 {
     public readonly bool Click;
     public MoveMadeSignal(bool click)
-    {
+    { 
         Click = click;
     }
 }

@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Zenject;
-public class BlockMoveController 
+public class BlockMoveController :IInitializable
 {
-   
-   
     public static readonly int MinGroupSizeForExplosion = 2;
     private int moveCount { get; set; }
     private TextMeshProUGUI movesLeftText;
@@ -22,11 +20,10 @@ public class BlockMoveController
     }
 
 
-    public async UniTask Initialized()
+    public void Initialize()
     {
         moveCount = LevelController.GetCurrentLevel().SettingsInfo.BlockMoveControllerSettings.MoveCount;
         UpdateMovesLeftUiText();
-        await UniTask.Yield();
     }
    
 

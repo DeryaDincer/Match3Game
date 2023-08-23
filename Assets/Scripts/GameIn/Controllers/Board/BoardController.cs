@@ -15,7 +15,7 @@ public class BoardController : IInitializable,IObserver, IDisposable
     private Board Board;
     private bool explosionState;
     private List<int> popBlocks = new List<int>();
-   // private SignalBus signalBus;
+    private SignalBus signalBus;
 
     public void BoardInject(Board board)
     {
@@ -23,26 +23,18 @@ public class BoardController : IInitializable,IObserver, IDisposable
     }
 
     [Inject]
-    public void Construct(LevelSceneReferences references, BoardSpawnController boardSpawnController, BlockAnimationController blockAnimationController)
+    public void Construct(LevelSceneReferences references, BoardSpawnController boardSpawnController, BlockAnimationController blockAnimationController, SignalBus signalBus)
     {
         this.settings = LevelController.GetCurrentLevel().SettingsInfo.BoardControllerSettings;
         this.references = references.BoardControllerReferences;
         this.boardSpawnController = boardSpawnController;
         this.blockAnimationController = blockAnimationController;
-       // this.signalBus = signalBus;
+        this.signalBus = signalBus;
     }
-    public void AddRegister()
-    {
-        ObserverManager.Register<SwipeMessage, BoardController>(Message);
-
-    }
-
 
     public void Initialize()
     {
-        Debug.LogError("derya");
-
-        // signalBus.Subscribe<MoveMadeSignal>(derya);
+        ObserverManager.Register<SwipeMessage, BoardController>(Message);
     }
 
     public void Dispose()
@@ -69,7 +61,7 @@ public class BoardController : IInitializable,IObserver, IDisposable
         popBlocks = BlockCheckMatch.GetMatchingBlocks(Board.ActiveBlocks, Board.Width);
         if(popBlocks.Count == 0)
         {
-            await SwapBlocksInBoard(index2, index1);
+            await SwapBlocksInBoard(index1, index2);
         }
         else
         {

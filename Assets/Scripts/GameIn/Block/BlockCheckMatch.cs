@@ -465,7 +465,7 @@ public class BlockCheckMatch
         int count = 0;
         for (int x = startX; x < boardWidth; x++)
         {
-            if (!blocks[x + y * boardWidth]) continue;
+            if (!blocks[x + y * boardWidth]) break;
 
             IBlockEntityTypeDefinition currentBlockType = blocks[x + y * boardWidth].EntityType;
 
@@ -499,7 +499,7 @@ public class BlockCheckMatch
         int count = 0;
         for (int y = startY; y < boardWidth; y++)
         {
-            if (!blocks[x + y * boardWidth]) continue;
+            if (!blocks[x + y * boardWidth]) break;
 
             IBlockEntityTypeDefinition currentBlockType = blocks[x + y * boardWidth].EntityType;
 

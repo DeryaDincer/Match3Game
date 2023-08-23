@@ -4,24 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
-
-public class BlockAnimationController
+using Zenject;
+public class BlockAnimationController:IInitializable
 {
     private BlockAnimationControllerSettings settings;
 
-    public async UniTask Initialized()
+    public void Initialize()
     {
         this.settings = LevelController.GetCurrentLevel().SettingsInfo.BlockAnimationControllerSettings;
-        await UniTask.Yield();
     }
 
     // Set swap animation for a block
     public async UniTask SetSwapAnimation(Block block, bool setOrderInLayer = false)
     {
-        if(settings == null)
-        {
-            Debug.LogError("null");
-        }
         float animationDuration = settings.SwapAnimationDuration;
         float swapScaleFactor = settings.SwapScaleFactor;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class BlockGoalController
+public class BlockGoalController: IInitializable
 {
     private List<Goal> blockGoals { get;  set; }
     private List<BlockGoalUI> goalUIList { get; set; }
@@ -24,14 +24,13 @@ public class BlockGoalController
         this.gameInUIEffectController = gameInUIEffectController;
     }
 
-    public async UniTask Initialized()
+    public void Initialize()
     {
         this.settings = LevelController.GetCurrentLevel().SettingsInfo.BlockGoalControllerSettings;
         blockGoals = new List<Goal>(settings.BlockGoals);
         goalUIList = new List<BlockGoalUI>();
         StartAllGoals();
         SpawnUiElements();
-        await UniTask.Yield();
     }
 
     public void OnEntityDestroyed(IBlockEntityTypeDefinition entityType)
@@ -66,6 +65,7 @@ public class BlockGoalController
             goalUI.transform.position,
             () => OnFlyingSpriteReachGoal(goalAmount, goalUI));
     }
+
     private void OnFlyingSpriteReachGoal(int goalAmount, BlockGoalUI goalUI)
     {
         //AudioManager.Instance.PlayAudio(goalCollectAudio, AudioManager.PlayMode.Single, 1);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class BoardSpawnController
+public class BoardSpawnController: IInitializable
 {
     public Board Board;
     private BoardSpawnControllerSettings settings;
@@ -20,9 +20,13 @@ public class BoardSpawnController
         this.boardController = boardController;
         this.memoryPool = memoryPool;
     }
+    public void Initialize()
+    {
+        SpawnRandomBoard(); 
+    }
 
     // Spawn a random game board
-    public async UniTask SpawnRandomBoard()
+    private async UniTask SpawnRandomBoard()
     {
         this.settings = LevelController.GetCurrentLevel().SettingsInfo.BoardSpawnControllerSettings;
         this.blockEntityTypeDefinitions = this.settings.EntityTypes;

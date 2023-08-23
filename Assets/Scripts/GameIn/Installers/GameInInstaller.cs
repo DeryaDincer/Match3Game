@@ -25,16 +25,17 @@ public class GameInInstaller : MonoInstaller
         //References
         Container.BindInstance(LevelReferences).AsSingle();
 
-       // Container.Bind<IInitializable>().AsSingle();
+        GameSignalsInstaller.Install(Container);
+        // Container.Bind<IInitializable>().AsSingle();
 
         //Controllers
-        Container.Bind<BlockGoalController>().AsSingle();
-        Container.Bind<BoardController>().AsSingle();
-        Container.Bind<BoardSpawnController>().AsSingle();
-        Container.Bind<BlockMoveController>().AsSingle();
-        Container.Bind<BlockAnimationController>().AsSingle();
-        Container.Bind<GameInCameraController>().AsSingle();
-        Container.Bind<GameInUIEffectController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<BoardSpawnController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<BoardController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<GameInCameraController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<BlockGoalController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<BlockMoveController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<BlockAnimationController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<GameInUIEffectController>().AsSingle();
 
         //Pooling
         Container.BindMemoryPool<Block, GenericMemoryPool<Block>>().FromComponentInNewPrefab(blockPrefab).UnderTransform(parent);
@@ -42,7 +43,7 @@ public class GameInInstaller : MonoInstaller
         Container.BindMemoryPool<FlyingSprite, GenericMemoryPool<FlyingSprite>>().FromComponentInNewPrefab(flyingSprite).UnderTransform(flyingSpriteParent);
 
 
-        Container.Inject(this);
+       // Container.Inject(this);
     }
 
 }

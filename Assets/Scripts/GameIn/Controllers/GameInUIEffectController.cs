@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class GameInUIEffectController 
+public class GameInUIEffectController :IInitializable
 {
 
     public enum CanvasLayer
@@ -31,6 +31,11 @@ public class GameInUIEffectController
         pointReferenceRects = References.PointReferenceRects;
         this.memoryPool = memoryPool;
 
+    }
+
+    public void Initialize()
+    {
+       
     }
 
     //block patladýgýnda block pozisyonundan bunu cagýr ve GoalUI a gitsin Target=GoalUI
