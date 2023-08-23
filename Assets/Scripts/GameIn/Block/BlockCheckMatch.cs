@@ -348,7 +348,7 @@ public class BlockCheckMatch
     /// <param name="blocks">The array of blocks on the board.</param>
     /// <param name="boardWidth">The width of the game board.</param>
     /// <returns>List of block indices that are part of matches.</returns>
-    public static List<int> GetMatchingBlocks(Block[] blocks, int boardWidth)
+    public static List<int> GetMatchingBlocks(Block[] blocks, int boardWidth, int boardHeight)
     {
         List<int> matchingBlockIds = new List<int>();
         int maxMatchCount = 0;
@@ -361,12 +361,10 @@ public class BlockCheckMatch
             if (!blocks[i]) continue;
             if (blocks[i].EntityType is LockedBlockTypeDefinition) continue;
 
-
             IBlockEntityTypeDefinition currentBlockType = blocks[i].EntityType;
 
-
             List<int> horizontalMatches = CheckHorizontalMatches(blocks, boardWidth, x, y, currentBlockType);
-            List<int> verticalMatches = CheckVerticalMatches(blocks, boardWidth, x, y, currentBlockType);
+            List<int> verticalMatches = CheckVerticalMatches(blocks, boardWidth, boardHeight, x, y, currentBlockType);
 
             int currentMatchCount = horizontalMatches.Count + verticalMatches.Count;
 
@@ -396,7 +394,6 @@ public class BlockCheckMatch
 
         return matchingBlockIds;
     }
-
 
     /// <summary>
     /// Checks for horizontal matches starting from a specific position.
@@ -432,6 +429,7 @@ public class BlockCheckMatch
         return count >= 3 ? matchingBlockIds : new List<int>();
     }
 
+
     /// <summary>
     /// Checks for vertical matches starting from a specific position.
     /// </summary>
@@ -441,12 +439,12 @@ public class BlockCheckMatch
     /// <param name="startY">The starting y-coordinate.</param>
     /// <param name="targetType">The target block type to match.</param>
     /// <returns>List of indices of blocks that are part of vertical matches.</returns>
-    private static List<int> CheckVerticalMatches(Block[] blocks, int boardWidth, int x, int startY, IBlockEntityTypeDefinition targetType)
+    private static List<int> CheckVerticalMatches(Block[] blocks, int boardWidth, int boardHeight, int x, int startY, IBlockEntityTypeDefinition targetType)
     {
         List<int> matchingBlockIds = new List<int>();
 
         int count = 0;
-        for (int y = startY; y < boardWidth; y++)
+        for (int y = startY; y < boardHeight; y++) // Use boardHeight here
         {
             if (!blocks[x + y * boardWidth]) break;
 
@@ -465,6 +463,7 @@ public class BlockCheckMatch
 
         return count >= 3 ? matchingBlockIds : new List<int>();
     }
+
 
     /// <summary>
     /// Shifts the non-situated blocks on the game board downwards to fill empty spaces.

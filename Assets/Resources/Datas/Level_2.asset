@@ -34,22 +34,15 @@ MonoBehaviour:
         - {fileID: 0}
         - {fileID: 0}
         - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 11400000, guid: cec8857f072a37947874ae788bb03631, type: 2}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-      Width: 5
-      Height: 5
+      Width: 3
+      Height: 6
     entityTypes:
     - {fileID: 11400000, guid: 339be756c60893e42ad2f4f3c9b0f687, type: 2}
     - {fileID: 11400000, guid: 73fba836ad26dc44a8b280818f436261, type: 2}
     - {fileID: 11400000, guid: 5e54e7e80cc16f542a96bedb41609fad, type: 2}
     - {fileID: 11400000, guid: e3fd0d7d0e95fff4f95f7311d320fc4e, type: 2}
-    width: 5
-    height: 5
+    width: 3
+    height: 6
   blockAnimationControllerSettings:
     swapAnimationDuration: 0.3
     swapScaleFactor: 1.3

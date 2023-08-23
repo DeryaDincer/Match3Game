@@ -61,7 +61,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
     private async void InitialController(int index1, int index2)
     {
         await SwapBlocksInBoard(index1, index2);
-        expBlocks = BlockCheckMatch.GetMatchingBlocks(Board.ActiveBlocks, Board.Width);
+        expBlocks = BlockCheckMatch.GetMatchingBlocks(Board.ActiveBlocks, Board.Width, Board.Height);
         if (expBlocks.Count == 0)
         {
             await SwapBlocksInBoard(index1, index2);
@@ -110,7 +110,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
     // Check and handle block explosions.
     private async UniTask CheckExplosion(CancellationTokenSource cts)
     {
-        expBlocks = BlockCheckMatch.GetMatchingBlocks(Board.ActiveBlocks, Board.Width);
+        expBlocks = BlockCheckMatch.GetMatchingBlocks(Board.ActiveBlocks, Board.Width, Board.Height);
 
         if (expBlocks.Count == 0)
         {
@@ -175,7 +175,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
     private void OnGameEndSignal(GameEndSignal signal)
     {
         gameEndState = true;
-        cancellationTokenSource.Cancel();
+        if(cancellationTokenSource != null) cancellationTokenSource.Cancel();
         cancellationTokenSource = null;
     }
 }
