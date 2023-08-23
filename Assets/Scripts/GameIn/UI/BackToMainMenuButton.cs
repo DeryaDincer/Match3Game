@@ -5,15 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class BackToMainMenuButton : MonoBehaviour
 {
-    public void BackToMainMenu(bool on)
+    public void BackToMainMenu(bool increaseLevel)
     {
-        StartCoroutine(LoadMenuSceneAsync(on));
+        StartCoroutine(LoadMenuSceneAsync(increaseLevel));
     }
 
-    public IEnumerator LoadMenuSceneAsync(bool on)
+    public IEnumerator LoadMenuSceneAsync(bool increaseLevel)
     {
-        int sceneIndex = on ? 0 : 1;
-        var progress = SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Single);
+        if (increaseLevel)
+        {
+            SaveLoadManager.IncreaseTotalLevel();
+
+        }
+
+        var progress = SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
 
         while (!progress.isDone)
         {

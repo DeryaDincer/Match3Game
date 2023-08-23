@@ -12,6 +12,7 @@ public class BoardController : IInitializable,IObserver, IDisposable
     private BlockAnimationController blockAnimationController;
     private Board Board;
     private bool explosionState;
+    private bool gameEndState;
     private List<int> popBlocks = new List<int>();
     private SignalBus signalBus;
 
@@ -31,11 +32,13 @@ public class BoardController : IInitializable,IObserver, IDisposable
     public void Initialize()
     {
         ObserverManager.Register<SwipeMessage, BoardController>(Message);
+        signalBus.Subscribe<GameEndSignal>(OnGameEndSignal);
     }
 
     public void Dispose()
     {
         ObserverManager.UnRegister<SwipeMessage, BoardController>(Message);
+        signalBus.Unsubscribe<GameEndSignal>(OnGameEndSignal);
     }
     public void Message(SwipeMessage msg)
     {
@@ -44,7 +47,8 @@ public class BoardController : IInitializable,IObserver, IDisposable
         index2 += index1;
 
         bool isValid = BlockCheckMatch.IsValidAdjacentMove(Board, index1, index2);
-        if (isValid && !explosionState)
+
+        if (isValid && !explosionState && !gameEndState)
         {
             explosionState = true;
             InitialController(index1, index2);
@@ -158,5 +162,8 @@ public class BoardController : IInitializable,IObserver, IDisposable
         await UniTask.WhenAll(taskList);
     }
 
-  
+    private void OnGameEndSignal(GameEndSignal signal)
+    {
+        gameEndState = true;
+    }
 }

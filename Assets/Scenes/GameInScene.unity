@@ -609,12 +609,13 @@ MonoBehaviour:
       - {fileID: 5416853739754257810}
     blockMoveControllerReferences:
       movesLeftText: {fileID: 5416853739130548351}
+    gameEndCanvasControllerReferences:
+      gameEndCanvas: {fileID: 6205154071377776697}
   blockPrefab: {fileID: 2703928565781708104, guid: 51d17bb404d740240b3ee60cc33639eb, type: 3}
   blockGoalUI: {fileID: 5680782826420360660, guid: b003150284d0bc044ae7f135eae1e995, type: 3}
   flyingSprite: {fileID: 2110366631952305236, guid: 7fe7deb0dc2aff6419154362e86750fc, type: 3}
   gridGoalUIParent: {fileID: 5416853739997782289}
   flyingSpriteParent: {fileID: 5416853740117044660}
-  parent: {fileID: 0}
 --- !u!4 &2009448900
 Transform:
   m_ObjectHideFlags: 0
@@ -1096,6 +1097,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 923165279}
+    - target: {fileID: 2272607493132491853, guid: 6aa5ce859e5d1d14da73858eec38cc19, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2272607493132491855, guid: 6aa5ce859e5d1d14da73858eec38cc19, type: 3}
       propertyPath: m_Name
       value: CanvasGameEnd
@@ -1113,5 +1118,10 @@ PrefabInstance:
 --- !u!224 &6205154071377776696 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2272607493132491851, guid: 6aa5ce859e5d1d14da73858eec38cc19, type: 3}
+  m_PrefabInstance: {fileID: 6205154071377776695}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &6205154071377776697 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 2272607493132491852, guid: 6aa5ce859e5d1d14da73858eec38cc19, type: 3}
   m_PrefabInstance: {fileID: 6205154071377776695}
   m_PrefabAsset: {fileID: 0}

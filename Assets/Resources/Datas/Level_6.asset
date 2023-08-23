@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c756e4706b94aa4a99882ac1397cfef, type: 3}
-  m_Name: Level_1
+  m_Name: Level_6
   m_EditorClassIdentifier: 
   boardSpawnControllerSettings:
     gridStartLayout:
@@ -36,8 +36,8 @@ MonoBehaviour:
         - {fileID: 0}
         - {fileID: 0}
         - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
+        - {fileID: 11400000, guid: cec8857f072a37947874ae788bb03631, type: 2}
+        - {fileID: 11400000, guid: cec8857f072a37947874ae788bb03631, type: 2}
         - {fileID: 11400000, guid: cec8857f072a37947874ae788bb03631, type: 2}
         - {fileID: 0}
         - {fileID: 0}
@@ -68,9 +68,9 @@ MonoBehaviour:
         - {fileID: 0}
         - {fileID: 0}
         - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
+        - {fileID: 11400000, guid: cec8857f072a37947874ae788bb03631, type: 2}
+        - {fileID: 11400000, guid: cec8857f072a37947874ae788bb03631, type: 2}
+        - {fileID: 11400000, guid: cec8857f072a37947874ae788bb03631, type: 2}
         - {fileID: 0}
         - {fileID: 0}
         - {fileID: 0}

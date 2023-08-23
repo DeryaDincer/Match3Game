@@ -316,6 +316,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3814970683608426130, guid: 41cb66549344bb84f88facd3686f4aec, type: 3}
+      propertyPath: m_Spacing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5595317409985633989, guid: 41cb66549344bb84f88facd3686f4aec, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -466,6 +470,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3182727501194518541, guid: b287a00220433f14e9ec223bc32c692c, type: 3}
+      propertyPath: levelSettings.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3182727501194518541, guid: b287a00220433f14e9ec223bc32c692c, type: 3}
+      propertyPath: levelSettings.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 45ac856c975774e4896478a8f4d6caaa, type: 2}
+    - target: {fileID: 3182727501194518541, guid: b287a00220433f14e9ec223bc32c692c, type: 3}
+      propertyPath: levelSettings.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ae8f8ce3cb00d14094970e6316af63a, type: 2}
+    - target: {fileID: 3182727501194518541, guid: b287a00220433f14e9ec223bc32c692c, type: 3}
+      propertyPath: levelSettings.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 161ba2cb35460854bb07b6885b374d68, type: 2}
+    - target: {fileID: 3182727501194518541, guid: b287a00220433f14e9ec223bc32c692c, type: 3}
+      propertyPath: levelSettings.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ab796d7cc996bc468cd5b33e14c2458, type: 2}
+    - target: {fileID: 3182727501194518541, guid: b287a00220433f14e9ec223bc32c692c, type: 3}
+      propertyPath: levelSettings.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9c79c76066e330643b2732fb96777984, type: 2}
     - target: {fileID: 3182727501194518542, guid: b287a00220433f14e9ec223bc32c692c, type: 3}
       propertyPath: m_Name
       value: GameManager

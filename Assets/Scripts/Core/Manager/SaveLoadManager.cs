@@ -20,7 +20,6 @@ public static class SaveLoadManager
 
         if (id > GetMaxTotalLevel())
         {
-
             SetMaxTotalLevel(id);
         }
 

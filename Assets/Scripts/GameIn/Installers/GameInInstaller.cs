@@ -15,7 +15,6 @@ public class GameInInstaller : MonoInstaller
 
     [SerializeField] private Transform gridGoalUIParent;
     [SerializeField] private Transform flyingSpriteParent;
-    public Transform parent;
     private void Awake()
     {
         InitialSignal.TrySetResult(true);
@@ -36,9 +35,10 @@ public class GameInInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<BlockMoveController>().AsSingle();
         Container.BindInterfacesAndSelfTo<BlockAnimationController>().AsSingle();
         Container.BindInterfacesAndSelfTo<GameInUIEffectController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<GameEndCanvasController>().AsSingle();
 
         //Pooling
-        Container.BindMemoryPool<Block, GenericMemoryPool<Block>>().FromComponentInNewPrefab(blockPrefab).UnderTransform(parent);
+        Container.BindMemoryPool<Block, GenericMemoryPool<Block>>().FromComponentInNewPrefab(blockPrefab);
         Container.BindMemoryPool<BlockGoalUI, GenericMemoryPool<BlockGoalUI>>().FromComponentInNewPrefab(blockGoalUI).UnderTransform(gridGoalUIParent);
         Container.BindMemoryPool<FlyingSprite, GenericMemoryPool<FlyingSprite>>().FromComponentInNewPrefab(flyingSprite).UnderTransform(flyingSpriteParent);
 

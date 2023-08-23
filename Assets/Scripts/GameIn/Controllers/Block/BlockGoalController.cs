@@ -14,14 +14,16 @@ public class BlockGoalController: IInitializable
     private BlockGoalControllerSettings settings;
     private GenericMemoryPool<BlockGoalUI> memoryPool;
     private GameInUIEffectController gameInUIEffectController;
+    private SignalBus signalBus;
 
     [Inject]
-    public void Construct(LevelSceneReferences references, GenericMemoryPool<BlockGoalUI> memoryPool, GameInUIEffectController gameInUIEffectController)
+    public void Construct(LevelSceneReferences references, GenericMemoryPool<BlockGoalUI> memoryPool, GameInUIEffectController gameInUIEffectController, SignalBus signalBus)
     {
         this.references = references.BlockGoalControllerReferences;
         this.blockUiElementsParent = this.references.GoalObjectsParent;
         this.memoryPool = memoryPool;
         this.gameInUIEffectController = gameInUIEffectController;
+        this.signalBus = signalBus;
     }
 
     public void Initialize()
@@ -45,12 +47,12 @@ public class BlockGoalController: IInitializable
             {
                 goal.DecreaseGoal();
                 CreateFlyingSpriteToGoal(entityType, goalUI);
-
-                if (goal.IsCompleted)
-                {
-                    CheckAllGoalsCompleted();
-                }
             }
+        }
+
+        if (CheckAllGoalsCompleted())
+        {
+            signalBus.Fire(new GameEndSignal());
         }
     }
 
@@ -95,8 +97,9 @@ public class BlockGoalController: IInitializable
         LayoutRebuilder.ForceRebuildLayoutImmediate(blockUiElementsParent);
     }
 
-    private void CheckAllGoalsCompleted()
+    private bool CheckAllGoalsCompleted()
     {
-        foreach (Goal goal in blockGoals) if (!goal.IsCompleted) return;
+        foreach (Goal goal in blockGoals) if (!goal.IsCompleted) return false;
+        return true;
     }
 }
