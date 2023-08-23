@@ -16,7 +16,9 @@ public class BlockGoalUI : MonoBehaviour, IPoolable
     public void SetupGoalUI(Goal goal)
     {
         Goal = goal;
-        goalImage.sprite = goal.entityType.DefaultEntitySprite;
+
+        Sprite entitySprite = goal.entityType.EntitySpriteAtlas.GetSprite(goal.entityType.DefaultEntitySpriteName);
+        goalImage.sprite = entitySprite;
         SetGoalAmount(goal.GoalLeft, false);
     }
 

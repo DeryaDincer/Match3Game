@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 
-public class BoardController : IObserver, IDisposable
+public class BoardController : IInitializable,IObserver, IDisposable
 {
     private BoardControllerSettings settings;
     private BoardControllerReferences references;
@@ -15,7 +15,7 @@ public class BoardController : IObserver, IDisposable
     private Board Board;
     private bool explosionState;
     private List<int> popBlocks = new List<int>();
-    private readonly SignalBus signalBus;
+   // private SignalBus signalBus;
 
     public void BoardInject(Board board)
     {
@@ -23,20 +23,31 @@ public class BoardController : IObserver, IDisposable
     }
 
     [Inject]
-    public void Construct(LevelSceneReferences references, BoardSpawnController boardSpawnController, BlockAnimationController blockAnimationController/*, SignalBus signalBus*/)
+    public void Construct(LevelSceneReferences references, BoardSpawnController boardSpawnController, BlockAnimationController blockAnimationController)
     {
         this.settings = LevelController.GetCurrentLevel().SettingsInfo.BoardControllerSettings;
         this.references = references.BoardControllerReferences;
         this.boardSpawnController = boardSpawnController;
         this.blockAnimationController = blockAnimationController;
-       // 
+       // this.signalBus = signalBus;
     }
     public void AddRegister()
     {
         ObserverManager.Register<SwipeMessage, BoardController>(Message);
+
     }
+
+
+    public void Initialize()
+    {
+        Debug.LogError("derya");
+
+        // signalBus.Subscribe<MoveMadeSignal>(derya);
+    }
+
     public void Dispose()
     {
+        Debug.LogError("girdi");
         ObserverManager.UnRegister<SwipeMessage, BoardController>(Message);
     }
     public void Message(SwipeMessage msg)
@@ -106,7 +117,7 @@ public class BoardController : IObserver, IDisposable
         if (popBlocks.Count == 0)
         {
             explosionState = false;
-            signalBus.Fire(new MoveMadeSignal());
+          //  signalBus.Fire(new MoveMadeSignal());
             cts.Cancel();
         }
         List<UniTask> taskList = new List<UniTask>();
@@ -159,5 +170,6 @@ public class BoardController : IObserver, IDisposable
         }
         await UniTask.WhenAll(taskList);
     }
-   
+
+  
 }

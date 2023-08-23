@@ -59,9 +59,10 @@ public class BlockGoalController
     public void CreateFlyingSpriteToGoal(IBlockEntityTypeDefinition entity, BlockGoalUI goalUI)
     {
         int goalAmount = goalUI.Goal.GoalLeft;
+        Sprite entitySprite = entity.EntitySpriteAtlas.GetSprite(entity.DefaultEntitySpriteName);
 
         gameInUIEffectController.CreateCurvyFlyingSprite(
-            entity.DefaultEntitySprite,
+           entitySprite,
             goalUI.transform.position,
             () => OnFlyingSpriteReachGoal(goalAmount, goalUI));
     }

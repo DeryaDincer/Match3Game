@@ -29,7 +29,13 @@ public class ArrayPropertyDrawer : PropertyDrawer
 
             BaseBlockEntityTypeDefinition typeDef = (data.GetArrayElementAtIndex(i).objectReferenceValue as BaseBlockEntityTypeDefinition);
             newPosition.width -= soHandlePixelSize;
-            if (typeDef != null) EditorGUI.DrawTextureTransparent(newPosition, typeDef.DefaultEntitySprite.texture);
+         
+
+            if (typeDef != null)
+            {
+                Sprite entitySprite = typeDef.EntitySpriteAtlas.GetSprite(typeDef.DefaultEntitySpriteName);
+                EditorGUI.DrawTextureTransparent(newPosition, entitySprite.texture);
+            }
             newPosition.width += soHandlePixelSize;
 
             x += cellWidth;

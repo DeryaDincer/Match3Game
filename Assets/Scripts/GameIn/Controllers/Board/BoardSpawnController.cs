@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -11,15 +10,14 @@ public class BoardSpawnController
     private BoardSpawnControllerReferences references;
     private IBlockEntityTypeDefinition[] blockEntityTypeDefinitions;
     private GridStartLayout startLayout;
-    private BoardController BoardController;
+    private BoardController boardController;
     private GenericMemoryPool<Block> memoryPool;
-    
     [Inject]
     public void Construct(LevelSceneReferences references, BoardController boardController, GenericMemoryPool<Block> memoryPool)
     {
         // Initialize references and settings
         this.references = references.BoardSpawnControllerReferences;
-        this.BoardController = boardController;
+        this.boardController = boardController;
         this.memoryPool = memoryPool;
     }
 
@@ -36,7 +34,7 @@ public class BoardSpawnController
 
         // Create a new game board
         Board = new Board(width, height, new Block[width * height], lockedIds);
-        BoardController.BoardInject(Board);
+        boardController.BoardInject(Board);
         CreateRandomBoard(Board);
 
         // Check for initial matches and shuffle if needed

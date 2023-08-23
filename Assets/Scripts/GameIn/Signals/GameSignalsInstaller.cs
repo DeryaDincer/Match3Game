@@ -9,6 +9,6 @@ public class GameSignalsInstaller : Installer<GameSignalsInstaller>
     {
         SignalBusInstaller.Install(Container);
 
-        //Container.DeclareSignal<ApplicationReadyToStartSignal>();
+        Container.DeclareSignal<MoveMadeSignal>().OptionalSubscriber();
     }
 }

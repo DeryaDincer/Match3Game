@@ -33,7 +33,8 @@ public class BlockBase : MonoBehaviour, IBlockEntity
     public virtual void SetupEntity(IBlockEntityTypeDefinition blockType)
     {
         EntityType = blockType;
-        SetBlockImage(blockType.DefaultEntitySprite);
+        Sprite entitySprite = blockType.EntitySpriteAtlas.GetSprite(blockType.DefaultEntitySpriteName);
+        SetBlockImage(entitySprite);
     }
 
     // Set the entity as situated

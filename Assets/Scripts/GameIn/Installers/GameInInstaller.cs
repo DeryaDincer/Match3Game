@@ -22,11 +22,10 @@ public class GameInInstaller : MonoInstaller
     }
     public override void InstallBindings()
     {
-        //Signals
-        //Container.BindInterfacesAndSelfTo<SignalBus>().AsSingle();
-
         //References
         Container.BindInstance(LevelReferences).AsSingle();
+
+       // Container.Bind<IInitializable>().AsSingle();
 
         //Controllers
         Container.Bind<BlockGoalController>().AsSingle();

@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be13772120d403d4f8017543dd88a7b8, type: 3}
   m_Name: LockedBlock
   m_EditorClassIdentifier: 
-  defaultSprite: {fileID: 21300000, guid: adcc716cd2bf62947b52b14c45c60357, type: 3}
+  defaultEntitySpriteName: SituatedBlock
+  entitySpriteAtlas: {fileID: 4343727234628468602, guid: 391a055112328004abfa9c0e6a368d9f, type: 2}

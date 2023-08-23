@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 992fe8f0591a8414b8e87a1d0416ac64, type: 3}
   m_Name: Block_Y
   m_EditorClassIdentifier: 
-  defaultSprite: {fileID: 21300000, guid: ef70f6fe9bf5d084684b5f69fc093a57, type: 3}
+  defaultEntitySpriteName: dropY
+  entitySpriteAtlas: {fileID: 4343727234628468602, guid: 391a055112328004abfa9c0e6a368d9f, type: 2}
   blockType: 3
   destroyAudio: {fileID: 0}
   destroyParticle: {fileID: 0}
