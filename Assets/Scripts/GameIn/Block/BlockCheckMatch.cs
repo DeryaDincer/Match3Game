@@ -251,8 +251,6 @@ public class BlockCheckMatch
                 return;
             }
         }
-        Debug.LogError("Valid shuffle could not be found.");
-        // If a valid shuffle is not found within the attempts limit, you can handle this case accordingly
     }
 
     /// <summary>

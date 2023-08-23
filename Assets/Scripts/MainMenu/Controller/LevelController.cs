@@ -21,7 +21,6 @@ public static partial class LevelController
     public struct Settings
     {
         public BoardSpawnControllerSettings BoardSpawnControllerSettings;
-        public BlockAnimationControllerSettings BlockAnimationControllerSettings;
         public BlockGoalControllerSettings BlockGoalControllerSettings;
         public BlockMoveControllerSettings BlockMoveControllerSettings;
     }
@@ -62,7 +61,6 @@ public static partial class LevelController
         {
             levelData.Levels[i] = new Level();
             levelData.Levels[i].SettingsInfo.BoardSpawnControllerSettings = LevelSettings[i].BoardSpawnControllerSettings;
-            levelData.Levels[i].SettingsInfo.BlockAnimationControllerSettings = LevelSettings[i].BlockAnimationControllerSettings;
             levelData.Levels[i].SettingsInfo.BlockGoalControllerSettings = LevelSettings[i].BlockGoalControllerSettings;
             levelData.Levels[i].SettingsInfo.BlockMoveControllerSettings = LevelSettings[i].BlockMoveControllerSettings;
         }

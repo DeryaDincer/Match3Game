@@ -9,9 +9,15 @@ public class BlockAnimationController:IInitializable
 {
     private BlockAnimationControllerSettings settings;
 
+    [Inject]
+    public void Construct(BlockAnimationControllerSettings settings)
+    {
+        this.settings = settings;
+    }
+
     public void Initialize()
     {
-        this.settings = LevelController.GetCurrentLevel().SettingsInfo.BlockAnimationControllerSettings;
+        //this.settings = LevelController.GetCurrentLevel().SettingsInfo.BlockAnimationControllerSettings;
     }
 
     // Set swap animation for a block 

@@ -47,7 +47,7 @@ public class BoardSpawnController: IInitializable
         CreateRandomBoard(Board);
 
         // Check for initial matches and shuffle if needed
-        if (BlockCheckMatch.IsAnyMatchExistsInBoard(Board))
+        while (BlockCheckMatch.IsAnyMatchExistsInBoard(Board))
         {
             BlockCheckMatch.Shuffle(Board);
         }

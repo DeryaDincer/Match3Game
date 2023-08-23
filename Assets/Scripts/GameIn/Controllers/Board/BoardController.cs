@@ -3,6 +3,7 @@ using Zenject;
 using System;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using UnityEngine;
 
 public class BoardController : IInitializable, IObserver, IDisposable
 {
@@ -37,6 +38,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
     {
         ObserverManager.UnRegister<SwipeMessage, BoardController>(Message);
         signalBus.Unsubscribe<GameEndSignal>(OnGameEndSignal);
+        DisposeToken();
     }
 
     // Handle the swipe message from the player.
@@ -70,6 +72,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
         {
             signalBus.Fire(new MoveMadeSignal());
             await InitialControllerAsync();
+
         }
 
         explosionState = false;
@@ -81,20 +84,18 @@ public class BoardController : IInitializable, IObserver, IDisposable
         using (cancellationTokenSource = new CancellationTokenSource())
         {
             var token = cancellationTokenSource.Token;
-            UniTask Task1 = CheckExplosion(cancellationTokenSource);
-            UniTask Task2 = ShiftBlocks(cancellationTokenSource);
-            UniTask Task3 = SpawnNullBlocks(cancellationTokenSource);
+            UniTask Task1 = CheckExplosion();
+            UniTask Task2 = ShiftBlocks();
+            UniTask Task3 = SpawnNullBlocks();
 
             await Task1;
             token.ThrowIfCancellationRequested();
+           
+            await UniTask.WhenAll(ShiftBlocks(), SpawnNullBlocks());
 
             if (Task3.Status == UniTaskStatus.Succeeded)
             {
-                await UniTask.WhenAll(ShiftBlocks(cancellationTokenSource), SpawnNullBlocks(cancellationTokenSource));
-            }
-            else
-            {
-                cancellationTokenSource.Cancel(); // Ýç içe geçmiþ UniTask'leri iptal et
+                await InitialControllerAsync();
             }
         }
     }
@@ -111,14 +112,14 @@ public class BoardController : IInitializable, IObserver, IDisposable
     }
 
     // Check and handle block explosions.
-    private async UniTask CheckExplosion(CancellationTokenSource cts)
+    private async UniTask CheckExplosion()
     {
         expBlocks = BlockCheckMatch.GetMatchingBlocks(Board.ActiveBlocks, Board.Width, Board.Height);
 
         if (expBlocks.Count == 0)
         {
             explosionState = false;
-            cts.Cancel();
+            cancellationTokenSource.Cancel();
         }
 
         List<UniTask> taskList = new List<UniTask>();
@@ -138,7 +139,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
     }
 
     // Shift the remaining blocks after explosions.
-    private async UniTask ShiftBlocks(CancellationTokenSource cts)
+    private async UniTask ShiftBlocks()
     {
         List<Block> shiftBlocks = BlockCheckMatch.ShiftBlocks(Board, Board.Width);
         boardSpawnController.SetAllBlockId(setBlockPosition: false);
@@ -146,7 +147,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
     }
 
     // Spawn new blocks to fill empty spaces after shifts.
-    private async UniTask SpawnNullBlocks(CancellationTokenSource cts)
+    private async UniTask SpawnNullBlocks()
     {
         List<Block> spawnBlocks = boardSpawnController.SpawnNullBlocks();
         spawnBlocks.Reverse();
@@ -178,7 +179,11 @@ public class BoardController : IInitializable, IObserver, IDisposable
     private void OnGameEndSignal(GameEndSignal signal)
     {
         gameEndState = true;
-        cancellationTokenSource.Cancel();
+        DisposeToken();
+    }
+    private void DisposeToken()
+    {
+        cancellationTokenSource?.Cancel();
         cancellationTokenSource = null;
     }
 }

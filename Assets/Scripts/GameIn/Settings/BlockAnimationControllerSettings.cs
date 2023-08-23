@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 
-[Serializable]
-public class BlockAnimationControllerSettings 
+[CreateAssetMenu(fileName = nameof(BlockAnimationControllerSettings), menuName = AssetMenuName.SETTINGS + nameof(BlockAnimationControllerSettings))]
+public class BlockAnimationControllerSettings : ScriptableObject
 {
     [BHeader("Swap Animation")]
     [SerializeField] private float swapAnimationDuration = .3f;
