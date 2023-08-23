@@ -1,61 +1,62 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Zenject;
-public class BlockMoveController :IInitializable
+public class BlockMoveController :IInitializable, IDisposable
 {
     public static readonly int MinGroupSizeForExplosion = 2;
     private int moveCount { get; set; }
     private TextMeshProUGUI movesLeftText;
+    private SignalBus signalBus;
 
     [Inject]
-    public void Construct(LevelSceneReferences references)
+    public void Construct(LevelSceneReferences references, SignalBus signalBus)
     {
         this.movesLeftText = references.BlockMoveControllerReferences.MovesLeftText;
-      
-       // moveText = references.MoveText;
-        //UpdateMoveText();
+        this.signalBus = signalBus;
     }
-
 
     public void Initialize()
     {
         moveCount = LevelController.GetCurrentLevel().SettingsInfo.BlockMoveControllerSettings.MoveCount;
         UpdateMovesLeftUiText();
+
+        signalBus.Subscribe<MoveMadeSignal>(OnMoveMadeSignal);
+    }
+    public void Dispose()
+    {
+        signalBus.Unsubscribe<MoveMadeSignal>(OnMoveMadeSignal);
+
+    }
+    private void OnMoveMadeSignal( MoveMadeSignal signal)
+    {
+        MoveMade();
+        if (!IsReadyForNextMove())
+        {
+            Debug.LogError("bitti");
+        }
+    }
+
+    public void MoveMade()
+    {
+        moveCount--;
+        UpdateMovesLeftUiText();
     }
    
 
-    public bool TryMakeMatchMove(Block blockEntity)
+    private bool IsReadyForNextMove()
     {
-        if (moveCount == 0) return false;
-
-        //count
-        //if (blockEntity.CurrentMatchGroup.Count < MinGroupSizeForExplosion) return false;
-
-        moveCount--;
-        UpdateMovesLeftUiText();
-        return true;
-    }
-
-    public void ClickedPowerUp()
-    {
-        moveCount--;
-        UpdateMovesLeftUiText();
-    }
-   
-
-    private void OnGridReadyForNextMove()
-    {
-        if (moveCount != 0) return;
-       //Failed
+        return moveCount != 0;
     }
     private void UpdateMovesLeftUiText()
     {
         movesLeftText.text = moveCount.ToString();
     }
 
+  
 
 
 

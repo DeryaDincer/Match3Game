@@ -14,7 +14,7 @@ public class BlockAnimationController:IInitializable
         this.settings = LevelController.GetCurrentLevel().SettingsInfo.BlockAnimationControllerSettings;
     }
 
-    // Set swap animation for a block
+    // Set swap animation for a block 
     public async UniTask SetSwapAnimation(Block block, bool setOrderInLayer = false)
     {
         float animationDuration = settings.SwapAnimationDuration;

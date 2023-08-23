@@ -8,7 +8,6 @@ using Zenject;
 
 public class GameInUIEffectController :IInitializable
 {
-
     public enum CanvasLayer
     {
         OverGridUnderUI,
@@ -19,18 +18,17 @@ public class GameInUIEffectController :IInitializable
     private RectTransform onGridUnderUiLayerParent;
     private RectTransform overEverythingLayerParent;
     private List<RectTransform> pointReferenceRects;
-    private GameInUIEffectControllerReferences References;
+    private GameInUIEffectControllerReferences references;
     private GenericMemoryPool<FlyingSprite> memoryPool;
 
     [Inject]
     public void Construct(LevelSceneReferences references, GenericMemoryPool<FlyingSprite> memoryPool)
     {
-        References = references.GameInUIEffectControllerReferences;
-        onGridUnderUiLayerParent = References.OnGridUnderUiLayerParent;
-        overEverythingLayerParent = References.OnGridUnderUiLayerParent;
-        pointReferenceRects = References.PointReferenceRects;
+        this.references = references.GameInUIEffectControllerReferences;
+        onGridUnderUiLayerParent = this.references.OnGridUnderUiLayerParent;
+        overEverythingLayerParent = this.references.OnGridUnderUiLayerParent;
+        pointReferenceRects = this.references.PointReferenceRects;
         this.memoryPool = memoryPool;
-
     }
 
     public void Initialize()
@@ -38,7 +36,6 @@ public class GameInUIEffectController :IInitializable
        
     }
 
-    //block patladýgýnda block pozisyonundan bunu cagýr ve GoalUI a gitsin Target=GoalUI
     public void CreateCurvyFlyingSprite(Sprite sprite, Vector2 targetPos,  Action onComplete = null)
     {
         FlyingSprite flyingObj = memoryPool.Spawn();
@@ -52,30 +49,6 @@ public class GameInUIEffectController :IInitializable
         Tween flyingTween = TweenHelper.CurvingMoveTo(flyingObj.transform, targetPos, onComplete, .5f, .2f, Ease.InOutCubic, Ease.InBack);
         flyingTween.onComplete += () => flyingObj.OnDespawned();
     }
-
-    public void CreateLinearFlyingSprite(Sprite sprite, Vector2 spriteSize, Vector2 spawnPos, Vector2 targetPos, CanvasLayer layer, Action onComplete = null)
-    {
-        FlyingSprite flyingObj = memoryPool.Spawn();
-        flyingObj.transform.position = spawnPos;
-        flyingObj.transform.SetParent(GetLayerParent(layer));
-        flyingObj.GetComponent<RectTransform>().sizeDelta = spriteSize;
-        flyingObj.GetComponent<Image>().sprite = sprite;
-        Tween flyingTween = TweenHelper.LinearMoveTo(flyingObj.transform, targetPos, onComplete);
-        flyingTween.onComplete += () => flyingObj.OnDespawned(); 
-    }
-
-    public void CreatePassingByFlyingText(string text, float fontSize, Vector2 spawnPos, Vector2 waitingPos, Vector2 targetPos, CanvasLayer layer, float moveDuration, float waitDuration, Action onComplete = null)
-    {
-        FlyingSprite flyingObj = memoryPool.Spawn();
-        flyingObj.transform.position = spawnPos;
-        flyingObj.transform.SetParent(GetLayerParent(layer));
-        TMPro.TMP_Text textComponent = flyingObj.GetComponent<TMPro.TMP_Text>();
-        textComponent.text = text;
-        textComponent.fontSize = fontSize;
-        Tween flyingTween = TweenHelper.PassingBy(flyingObj.transform, spawnPos, waitingPos, targetPos, moveDuration, waitDuration, onComplete);
-        flyingTween.onComplete += () => flyingObj.OnDespawned();
-    }
-
     public RectTransform GetLayerParent(CanvasLayer layer)
     {
         switch (layer)

@@ -8,8 +8,6 @@ using System.Linq;
 
 public class BoardController : IInitializable,IObserver, IDisposable
 {
-    private BoardControllerSettings settings;
-    private BoardControllerReferences references;
     private BoardSpawnController boardSpawnController;
     private BlockAnimationController blockAnimationController;
     private Board Board;
@@ -23,10 +21,8 @@ public class BoardController : IInitializable,IObserver, IDisposable
     }
 
     [Inject]
-    public void Construct(LevelSceneReferences references, BoardSpawnController boardSpawnController, BlockAnimationController blockAnimationController, SignalBus signalBus)
+    public void Construct(BoardSpawnController boardSpawnController, BlockAnimationController blockAnimationController, SignalBus signalBus)
     {
-        this.settings = LevelController.GetCurrentLevel().SettingsInfo.BoardControllerSettings;
-        this.references = references.BoardControllerReferences;
         this.boardSpawnController = boardSpawnController;
         this.blockAnimationController = blockAnimationController;
         this.signalBus = signalBus;
@@ -39,7 +35,6 @@ public class BoardController : IInitializable,IObserver, IDisposable
 
     public void Dispose()
     {
-        Debug.LogError("girdi");
         ObserverManager.UnRegister<SwipeMessage, BoardController>(Message);
     }
     public void Message(SwipeMessage msg)
@@ -65,6 +60,7 @@ public class BoardController : IInitializable,IObserver, IDisposable
         }
         else
         {
+            signalBus.Fire(new MoveMadeSignal());
             await InitialControllerAsync();
         }
       
@@ -109,7 +105,6 @@ public class BoardController : IInitializable,IObserver, IDisposable
         if (popBlocks.Count == 0)
         {
             explosionState = false;
-          //  signalBus.Fire(new MoveMadeSignal());
             cts.Cancel();
         }
         List<UniTask> taskList = new List<UniTask>();
