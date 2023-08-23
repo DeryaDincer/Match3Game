@@ -4,21 +4,8 @@ using UnityEngine;
 
 public partial class Board : BoardBase<Block>
 {
-    //public class BoardPointPair
-    //{
-    //    public int BlockType;
-    //    public int PointID;
-    //    public bool LockedPoint;
-    //    public Block ConnectedBlock;
-    //    public BoardPointPair(int blockType, int pointID, bool lockedPoint)
-    //    {
-    //        this.BlockType = blockType;
-    //        this.PointID = pointID;
-    //        this.LockedPoint = lockedPoint;
-    //    }
-    //}
+  
 }
-
 
 public partial class Board : BoardBase<Block>
 {

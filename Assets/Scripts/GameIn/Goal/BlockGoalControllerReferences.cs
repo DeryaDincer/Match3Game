@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class BlockGoalControllerReferences
 {
     [SerializeField] private RectTransform goalObjectsParent;
     public RectTransform GoalObjectsParent => goalObjectsParent;
-   
 }

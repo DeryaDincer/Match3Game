@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameManager : PersistentSingleton<GameManager>
 {
     [SerializeField] public LevelSettings[] levelSettings;
-    public bool IsRunning = false;
+    public bool IsRunning => isRunning;
+    private bool isRunning = false;
 
     private void Start()
     {
@@ -14,13 +15,12 @@ public class GameManager : PersistentSingleton<GameManager>
 
     private IEnumerator InitRoutine()
     {
-
         if (!LevelController.IsInitialized)
         {
             LevelController.SetLevelDatas();
 
             yield return new WaitUntil(() => LevelController.IsInitialized);
-            IsRunning = true;
+            isRunning = true;
         }
     }
 }

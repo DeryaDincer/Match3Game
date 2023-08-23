@@ -120,12 +120,10 @@ public class BoardSpawnController: IInitializable
     {
         for (int i = 0; i < board.Width * board.Height; i++)
         {
-            IBlockEntityTypeDefinition randomEntityType = null;
-            randomEntityType = blockEntityTypeDefinitions[Random.Range(0, blockEntityTypeDefinitions.Length)];
-            //Block block = PoolManager.Instance.GetObject<Block>();
+            IBlockEntityTypeDefinition randomEntityType = blockEntityTypeDefinitions[Random.Range(0, blockEntityTypeDefinitions.Length)];
          
-           // Block block = blockFactory.Create();
             Block block = memoryPool.Spawn();
+         
             // If the block layout specifies a block, use that type and set it as situated
             if (startLayout.BlockDatas.Blocks[i] != null)
             {

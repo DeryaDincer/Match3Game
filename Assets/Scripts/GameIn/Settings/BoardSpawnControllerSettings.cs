@@ -5,7 +5,6 @@ public class BoardSpawnControllerSettings
 {
     [BHeader("Grid Start Layout")]
    public GridStartLayout gridStartLayout = new GridStartLayout(9, 9);
- //  public GridStartLayout gridStartLayout = new GridStartLayout((int)rowCount, (int)collumnCount);
 
     [BHeader("Block Entity Spawner Settings")]
     [SerializeField] private BaseBlockEntityTypeDefinition[] entityTypes;

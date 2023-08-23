@@ -74,6 +74,6 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        return null; // No block was clicked
+        return null; 
     }
 }

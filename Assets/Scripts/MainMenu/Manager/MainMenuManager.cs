@@ -5,27 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] private LevelButton levelButton;
-    [SerializeField] private Transform levelButtonContent;
-    private List<LevelButton> levelButtons = new List<LevelButton>();
-    private Coroutine activeCoroutine = null;
-
+    [SerializeField] private LevelButton levelButton;           // Reference to the LevelButton prefab.
+    [SerializeField] private Transform levelButtonContent;      // Parent transform for level buttons.
+    private List<LevelButton> levelButtons = new List<LevelButton>();   // List to store instantiated level buttons.
+    private Coroutine activeCoroutine = null;                    // Reference to the active coroutine.
 
     private IEnumerator Start()
     {
-        yield return new WaitUntil(() => GameManager.I.IsRunning);
+        // Wait until the game manager is running.
+        yield return new WaitUntil(() => GameManager.Instance.IsRunning);
+
+        // Create level buttons once the game manager is running.
         CreateLevelButtons();
     }
+
+    // Method to start the game with a specific level ID.
     public void OnStartGame(int levelID)
     {
         activeCoroutine = null;
-        SaveLoadManager.SetTotalLevel(levelID);
-        //if (activeCoroutine) StopCoroutine(activeCoroutine);
-
-        activeCoroutine = StartCoroutine(LoadSceneAsync());
-
+        SaveLoadManager.SetTotalLevel(levelID);   // Set the selected level as the total level.
+        activeCoroutine = StartCoroutine(LoadSceneAsync());   // Start loading the game scene asynchronously.
     }
 
+    // Coroutine to load the game scene asynchronously.
     public IEnumerator LoadSceneAsync()
     {
         var progress = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
@@ -36,10 +38,11 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    // Method to create level buttons based on available levels.
     private void CreateLevelButtons()
     {
-        LevelController.LevelData Info = LevelController.GetLevelInfo();
-        int Count = Info.Levels.Length;
+        LevelController.LevelData info = LevelController.GetLevelInfo();
+        int Count = info.Levels.Length;
         int maxLevelID = SaveLoadManager.GetMaxTotalLevel();
 
         for (int i = 0; i < Count; i++)
@@ -47,17 +50,18 @@ public class MainMenuManager : MonoBehaviour
             bool _isAvailable = false;
             int levelID = i;
 
-
+            // Instantiate a new LevelButton and add it to the list.
             LevelButton levelBarElement = Instantiate(levelButton, levelButtonContent);
             levelButtons.Add(levelBarElement);
+
+            // Check if the level is available.
             if (levelID <= maxLevelID)
             {
                 _isAvailable = true;
             }
 
-            levelBarElement.Init(() => OnStartGame(levelID), levelID, _isAvailable, Info);
-
-
+            // Initialize the LevelButton with appropriate parameters.
+            levelBarElement.Init(() => OnStartGame(levelID), levelID, _isAvailable, info);
         }
     }
 }

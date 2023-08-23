@@ -614,6 +614,7 @@ MonoBehaviour:
   blockPrefab: {fileID: 2703928565781708104, guid: 51d17bb404d740240b3ee60cc33639eb, type: 3}
   blockGoalUI: {fileID: 5680782826420360660, guid: b003150284d0bc044ae7f135eae1e995, type: 3}
   flyingSprite: {fileID: 2110366631952305236, guid: 7fe7deb0dc2aff6419154362e86750fc, type: 3}
+  blocParent: {fileID: 5845387034561998431}
   gridGoalUIParent: {fileID: 5416853739997782289}
   flyingSpriteParent: {fileID: 5416853740117044660}
 --- !u!4 &2009448900
@@ -1002,6 +1003,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a2df114d7c6a2c489e104ec6773f54c, type: 3}
+--- !u!4 &5845387034561998431 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5845387035418644731, guid: 6a2df114d7c6a2c489e104ec6773f54c, type: 3}
+  m_PrefabInstance: {fileID: 5845387034561998430}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6205154071377776695
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,19 +1,17 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class GameInUIEffectController :IInitializable
+public class GameInUIEffectController : IInitializable
 {
     public enum CanvasLayer
     {
         OverGridUnderUI,
         OverEverything,
     }
-
 
     private RectTransform onGridUnderUiLayerParent;
     private RectTransform overEverythingLayerParent;
@@ -33,22 +31,23 @@ public class GameInUIEffectController :IInitializable
 
     public void Initialize()
     {
-       
+
     }
 
-    public void CreateCurvyFlyingSprite(Sprite sprite, Vector2 targetPos,  Action onComplete = null)
+    // Create a flying sprite effect with specified parameters.
+    public void CreateCurvyFlyingSprite(Sprite sprite, Vector2 targetPos, Action onComplete = null)
     {
         FlyingSprite flyingObj = memoryPool.Spawn();
-
         RectTransform rect = flyingObj.GetComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(120,120);
-        rect.anchoredPosition = new Vector2(0, 350); 
-
+        rect.sizeDelta = new Vector2(120, 120);
+        rect.anchoredPosition = new Vector2(0, 350);
         flyingObj.GetComponent<Image>().sprite = sprite;
-       
+
         Tween flyingTween = TweenHelper.CurvingMoveTo(flyingObj.transform, targetPos, onComplete, .5f, .2f, Ease.InOutCubic, Ease.InBack);
         flyingTween.onComplete += () => flyingObj.OnDespawned();
     }
+
+    // Get the parent RectTransform for a specified canvas layer.
     public RectTransform GetLayerParent(CanvasLayer layer)
     {
         switch (layer)
@@ -63,6 +62,7 @@ public class GameInUIEffectController :IInitializable
         }
     }
 
+    // Get the world position of a reference point by its name.
     public Vector2 GetReferencePointByName(string referenceName)
     {
         foreach (RectTransform rect in pointReferenceRects)
@@ -75,6 +75,7 @@ public class GameInUIEffectController :IInitializable
     }
 
 #if UNITY_EDITOR
+    // Draw Gizmos in the Unity Editor to visualize reference points.
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
@@ -86,12 +87,11 @@ public class GameInUIEffectController :IInitializable
         }
     }
 
+    // Draw a string at a specific world position in the Unity Editor.
     public void DrawString(string text, Vector3 worldPos, Color? textColor = null)
     {
         if (textColor.HasValue) UnityEditor.Handles.color = textColor.Value;
         UnityEditor.Handles.Label(worldPos, text);
-
     }
 #endif
-
 }

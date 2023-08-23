@@ -1,16 +1,12 @@
-using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 using Zenject;
-public class BlockMoveController :IInitializable, IDisposable
+
+public class BlockMoveController : IInitializable, IDisposable
 {
-    public static readonly int MinGroupSizeForExplosion = 2;
-    private int moveCount { get; set; }
-    private TextMeshProUGUI movesLeftText;
-    private SignalBus signalBus;
+    private int moveCount { get; set; } 
+    private TextMeshProUGUI movesLeftText; 
+    private SignalBus signalBus; 
 
     [Inject]
     public void Construct(LevelSceneReferences references, SignalBus signalBus)
@@ -26,37 +22,38 @@ public class BlockMoveController :IInitializable, IDisposable
 
         signalBus.Subscribe<MoveMadeSignal>(OnMoveMadeSignal);
     }
+
     public void Dispose()
     {
         signalBus.Unsubscribe<MoveMadeSignal>(OnMoveMadeSignal);
-
     }
-    private void OnMoveMadeSignal( MoveMadeSignal signal)
+
+    // Callback function for the MoveMadeSignal.
+    private void OnMoveMadeSignal(MoveMadeSignal signal)
     {
         MoveMade();
         if (!IsReadyForNextMove())
         {
-            signalBus.Fire(new GameEndSignal());
+            signalBus.Fire(new GameEndSignal()); 
         }
     }
 
+    // Decrease the move count when a move is made.
     public void MoveMade()
     {
         moveCount--;
         UpdateMovesLeftUiText();
     }
+
+    // Update the UI text displaying remaining moves.
     private void UpdateMovesLeftUiText()
     {
         movesLeftText.text = moveCount.ToString();
     }
+
+    // Check if the player is ready for the next move based on the remaining move count.
     private bool IsReadyForNextMove()
     {
         return moveCount != 0;
     }
-   // private void 
-
-  
-
-
-
 }

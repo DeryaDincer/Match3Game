@@ -20,7 +20,7 @@ public class PersistentSingleton<T> : MonoBehaviour where T : MonoBehaviour
     /// Gets the instance.
     /// </summary>
     /// <value>The instance.</value>
-    public static T I
+    public static T Instance
     {
         get
         {

@@ -316,10 +316,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3814970683608426130, guid: 41cb66549344bb84f88facd3686f4aec, type: 3}
-      propertyPath: m_Spacing
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5595317409985633989, guid: 41cb66549344bb84f88facd3686f4aec, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0

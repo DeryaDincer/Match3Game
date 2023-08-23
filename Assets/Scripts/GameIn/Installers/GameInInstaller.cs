@@ -9,12 +9,14 @@ public class GameInInstaller : MonoInstaller
     [Group] [SerializeField] private LevelSceneReferences LevelReferences;
     public UniTaskCompletionSource<bool> InitialSignal = new();
 
+    #region values
     [SerializeField] private Block blockPrefab;
     [SerializeField] private BlockGoalUI blockGoalUI;
     [SerializeField] private FlyingSprite flyingSprite;
-
     [SerializeField] private Transform gridGoalUIParent;
     [SerializeField] private Transform flyingSpriteParent;
+    #endregion
+
     private void Awake()
     {
         InitialSignal.TrySetResult(true);
@@ -24,8 +26,8 @@ public class GameInInstaller : MonoInstaller
         //References
         Container.BindInstance(LevelReferences).AsSingle();
 
+        //Signal
         GameSignalsInstaller.Install(Container);
-        // Container.Bind<IInitializable>().AsSingle();
 
         //Controllers
         Container.BindInterfacesAndSelfTo<BoardSpawnController>().AsSingle();
@@ -41,9 +43,5 @@ public class GameInInstaller : MonoInstaller
         Container.BindMemoryPool<Block, GenericMemoryPool<Block>>().FromComponentInNewPrefab(blockPrefab);
         Container.BindMemoryPool<BlockGoalUI, GenericMemoryPool<BlockGoalUI>>().FromComponentInNewPrefab(blockGoalUI).UnderTransform(gridGoalUIParent);
         Container.BindMemoryPool<FlyingSprite, GenericMemoryPool<FlyingSprite>>().FromComponentInNewPrefab(flyingSprite).UnderTransform(flyingSpriteParent);
-
-
-       // Container.Inject(this);
     }
-
 }

@@ -15,11 +15,9 @@ public class Block : BlockBase, IPoolable
     private void OnDisable()
     {
          OnEntityDestroyed.RemoveListener(blockGoalController.OnEntityDestroyed);
+    }
 
-    }
-    public void OnSpawned()
-    {
-    }
+    public void OnSpawned() { }
 
     public void OnDespawned()
     {

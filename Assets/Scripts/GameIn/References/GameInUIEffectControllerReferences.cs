@@ -1,8 +1,8 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class GameInUIEffectControllerReferences
 {
     [BHeader("References")]
@@ -11,10 +11,7 @@ public class GameInUIEffectControllerReferences
     [BHeader("Point References")]
     [SerializeField] private List<RectTransform> pointReferenceRects;
 
-
-
     public RectTransform OnGridUnderUiLayerParent => onGridUnderUiLayerParent;
     public RectTransform OverEverythingLayerParent => overEverythingLayerParent;
-
-   public List<RectTransform> PointReferenceRects => pointReferenceRects;
+    public List<RectTransform> PointReferenceRects => pointReferenceRects;
 }

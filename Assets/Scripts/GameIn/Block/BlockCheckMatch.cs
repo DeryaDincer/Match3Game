@@ -213,57 +213,6 @@ public class BlockCheckMatch
     /// Shuffles the blocks on the game board.
     /// </summary>
     /// <param name="board">The game board.</param>
-    public static void Shufflee(Board board)
-    {
-        int width = board.Width;
-        int height = board.Height;
-        int gridCount = width * height;
-        List<int> lockedIds = board.LockedIds;
-        List<int> enableIds = new List<int>();
-        for (int i = 0; i < gridCount; i++)
-        {
-            if (!board.ActiveBlocks[i].Situated)
-            {
-                enableIds.Add(i);
-            }
-        }
-       
-        int maxShuffleAttempts = 100; // You can adjust this value as needed
-
-        for (int attempt = 0; attempt < maxShuffleAttempts; attempt++)
-        {
-            Block[] shuffledGrid = new Block[gridCount];
-            Array.Copy(board.ActiveBlocks, shuffledGrid, gridCount); // Make a copy of the board.Grid
-
-            System.Random rand = new System.Random();
-
-            for (int i = enableIds.Count - 1; i > 0; i--)
-            {
-                int randomIndex = rand.Next(i + 1);
-                randomIndex = enableIds[randomIndex];
-                int index = enableIds[i];
-
-                if (shuffledGrid[index].Situated) Debug.LogError("olamaz"); 
-                if (shuffledGrid[randomIndex].Situated) Debug.LogError("hayda");
-
-                Block temp = shuffledGrid[index];
-                shuffledGrid[index] = shuffledGrid[randomIndex];
-                shuffledGrid[randomIndex] = temp;
-            }
-
-            Board shuffledBoard = new Board(width, height, shuffledGrid, lockedIds);
-
-            if (IsValidShuffledBoard(board, shuffledBoard))
-            {
-                Debug.LogError(attempt);
-                Array.Copy(shuffledGrid, board.ActiveBlocks, gridCount); // Copy back the shuffledGrid to board.Grid
-                return;
-            }
-        }
-        Debug.LogError("Valid shuffle could not be found.");
-        // If a valid shuffle is not found within the attempts limit, you can handle this case accordingly
-    }
-
     public static void Shuffle(Board board)
     {
         int width = board.Width;

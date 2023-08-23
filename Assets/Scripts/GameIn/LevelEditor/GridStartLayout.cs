@@ -1,6 +1,6 @@
-using UnityEngine;
+using System;
 
-[System.Serializable]
+[Serializable]
 public class GridStartLayout
 {
      [System.Serializable]
@@ -12,6 +12,7 @@ public class GridStartLayout
     public BlockData BlockDatas;
     public int Width = 4;
     public int Height = 4;
+
     public GridStartLayout(int width, int height)
     {
         Width = width;

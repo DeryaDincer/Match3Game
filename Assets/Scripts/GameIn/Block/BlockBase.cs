@@ -79,26 +79,6 @@ public class BlockBase : MonoBehaviour, IBlockEntity
     {
         EntityType = null;
     }
-
-    // Deactivate the object
-    //public override void OnDeactivate()
-    //{
-    //    gameObject.SetActive(false);
-    //}
-
-    // Called when the object is spawned
-    //public override void OnSpawn()
-    //{
-    //    OnDeactivate();
-    //}
-
-    // Called when the object is created
-    //public override void OnCreated()
-    //{
-    //    transform.localScale = Vector3.one;
-    //    gameObject.SetActive(true);
-    //}
-
    
     // Set the target position based on the BlockID
     public void SetTargetPositionToID(Board board)

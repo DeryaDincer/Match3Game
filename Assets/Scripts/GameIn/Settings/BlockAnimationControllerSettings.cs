@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -13,9 +11,11 @@ public class BlockAnimationControllerSettings
     [SerializeField] private float swapScaleFactor = 1.3f;
     public float SwapScaleFactor => swapScaleFactor;
 
+
     [BHeader("Set Position Animation")]
     [SerializeField] private float movingSpeed = 10;
     public float MovingSpeed => movingSpeed;
+
 
     [BHeader("Despawn Animation")]
     [SerializeField] private float despawnAnimationDuration = .4f;
