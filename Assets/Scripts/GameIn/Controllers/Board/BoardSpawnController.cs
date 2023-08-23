@@ -22,9 +22,14 @@ public class BoardSpawnController: IInitializable
     }
     public void Initialize()
     {
-        SpawnRandomBoard(); 
+        SpawnRandomBoardAysnc(); 
     }
 
+    // Spawn a random game board async func
+    private async void SpawnRandomBoardAysnc()
+    {
+        await SpawnRandomBoard();
+    }
     // Spawn a random game board
     private async UniTask SpawnRandomBoard()
     {

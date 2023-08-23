@@ -94,7 +94,6 @@ public class BlockGoalController : IInitializable
         {
             BlockGoalUI blockGoal = memoryPool.Spawn();
             idx++;
-            blockGoal.gameObject.name = "-----" + idx;
             blockGoal.transform.position = blockUiElementsParent.position;
             blockGoal.transform.SetParent(blockUiElementsParent);
             blockGoal.transform.localScale = Vector3.one;

@@ -13,7 +13,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
     private bool gameEndState;
     private List<int> expBlocks = new List<int>();
     private SignalBus signalBus;
-
+    private CancellationTokenSource cancellationTokenSource;
     // Inject the associated board into the controller.
     public void BoardInject(Board board)
     {
@@ -78,17 +78,17 @@ public class BoardController : IInitializable, IObserver, IDisposable
     // Asynchronously execute the entire block processing sequence.
     public async UniTask InitialControllerAsync()
     {
-        using (CancellationTokenSource cts = new CancellationTokenSource())
+        using (cancellationTokenSource = new CancellationTokenSource())
         {
-            var token = cts.Token;
-            UniTask Task1 = CheckExplosion(cts);
-            UniTask Task2 = ShiftBlocks(cts);
-            UniTask Task3 = SpawnNullBlocks(cts);
+            var token = cancellationTokenSource.Token;
+            UniTask Task1 = CheckExplosion(cancellationTokenSource);
+            UniTask Task2 = ShiftBlocks(cancellationTokenSource);
+            UniTask Task3 = SpawnNullBlocks(cancellationTokenSource);
 
             await Task1;
             token.ThrowIfCancellationRequested();
 
-            await UniTask.WhenAll(ShiftBlocks(cts), SpawnNullBlocks(cts));
+            await UniTask.WhenAll(ShiftBlocks(cancellationTokenSource), SpawnNullBlocks(cancellationTokenSource));
 
             if (Task3.Status == UniTaskStatus.Succeeded)
             {
@@ -175,5 +175,7 @@ public class BoardController : IInitializable, IObserver, IDisposable
     private void OnGameEndSignal(GameEndSignal signal)
     {
         gameEndState = true;
+        cancellationTokenSource.Cancel();
+        cancellationTokenSource = null;
     }
 }
