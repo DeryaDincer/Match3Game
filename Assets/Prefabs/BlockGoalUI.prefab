@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 827407853150339769}
   - component: {fileID: 827407853150339768}
-  - component: {fileID: 5356825315916648084}
+  - component: {fileID: 5680782826420360660}
   m_Layer: 5
-  m_Name: GridGoalUI
+  m_Name: BlockGoalUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827407853150339770}
   m_CullTransparentMesh: 1
---- !u!114 &5356825315916648084
+--- !u!114 &5680782826420360660
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,10 +59,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 827407853150339770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd8f2f5a5c0803e419737a2d45f7b204, type: 3}
+  m_Script: {fileID: 11500000, guid: 550c6be05b2cdb64a8de5d3a02aa9089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  psGridGoal: {fileID: 1416546638972022295}
+  goalParticle: {fileID: 1416546638972022295}
   goalAmountLeftText: {fileID: 827407853397301248}
   goalImage: {fileID: 827407854957851998}
   goalCompletedImage: {fileID: 827407855136276303}
@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 827407853397301255}
   - component: {fileID: 827407853397301248}
   m_Layer: 5
-  m_Name: Count
+  m_Name: CountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 827407854957851997}
   - component: {fileID: 827407854957851998}
   m_Layer: 5
-  m_Name: Img_Block
+  m_Name: BlockImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -380,7 +380,7 @@ Transform:
   m_GameObject: {fileID: 8259376473577992212}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 1}
+  m_LocalScale: {x: 75, y: 75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 827407853150339769}

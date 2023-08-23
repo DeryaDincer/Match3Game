@@ -10,7 +10,7 @@ public class GameInInstaller : MonoInstaller
     public UniTaskCompletionSource<bool> InitialSignal = new();
 
     [SerializeField] private Block blockPrefab;
-    [SerializeField] private GridGoalUI gridGoalUI;
+    [SerializeField] private BlockGoalUI blockGoalUI;
     [SerializeField] private FlyingSprite flyingSprite;
 
     [SerializeField] private Transform gridGoalUIParent;
@@ -39,7 +39,7 @@ public class GameInInstaller : MonoInstaller
 
         //Pooling
         Container.BindMemoryPool<Block, GenericMemoryPool<Block>>().FromComponentInNewPrefab(blockPrefab).UnderTransform(parent);
-        Container.BindMemoryPool<GridGoalUI, GenericMemoryPool<GridGoalUI>>().FromComponentInNewPrefab(gridGoalUI).UnderTransform(gridGoalUIParent);
+        Container.BindMemoryPool<BlockGoalUI, GenericMemoryPool<BlockGoalUI>>().FromComponentInNewPrefab(blockGoalUI).UnderTransform(gridGoalUIParent);
         Container.BindMemoryPool<FlyingSprite, GenericMemoryPool<FlyingSprite>>().FromComponentInNewPrefab(flyingSprite).UnderTransform(flyingSpriteParent);
 
 

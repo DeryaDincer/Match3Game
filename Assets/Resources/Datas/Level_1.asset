@@ -69,10 +69,10 @@ MonoBehaviour:
     despawnScaleFactor: 1.15
   blockGoalControllerSettings:
     goalCollectAudio: {fileID: 0}
-    gridGoals:
-    - entityType: {fileID: 11400000, guid: 339be756c60893e42ad2f4f3c9b0f687, type: 2}
-      goalAmount: 20
+    blockGoals:
+    - entityType: {fileID: 11400000, guid: 73fba836ad26dc44a8b280818f436261, type: 2}
+      goalAmount: 10
     - entityType: {fileID: 11400000, guid: e3fd0d7d0e95fff4f95f7311d320fc4e, type: 2}
-      goalAmount: 20
+      goalAmount: 10
   blockMoveControllerSettings:
     moveCount: 20

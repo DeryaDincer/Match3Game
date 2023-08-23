@@ -4,10 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GridGoalUI : MonoBehaviour, IPoolable
+public class BlockGoalUI : MonoBehaviour, IPoolable
 {
-
-    [SerializeField] private ParticleSystem psGridGoal;
+    [SerializeField] private ParticleSystem goalParticle;
     [SerializeField] private TMP_Text goalAmountLeftText;
     [SerializeField] private Image goalImage;
     [SerializeField] private Image goalCompletedImage;
@@ -23,8 +22,9 @@ public class GridGoalUI : MonoBehaviour, IPoolable
 
     public void SetGoalAmount(int goalAmount, bool playParticles = true)
     {
-        if (playParticles)
-            psGridGoal.Play();
+        if (playParticles) goalParticle.Play();
+
+
         if (goalAmount == 0)
         {
             goalCompletedImage.enabled = true;
@@ -36,14 +36,8 @@ public class GridGoalUI : MonoBehaviour, IPoolable
             goalAmountLeftText.text = goalAmount.ToString();
         }
     }
-    public void OnSpawned()
-    {
-        gameObject.SetActive(true);
-    }
+    public void OnSpawned() { }
 
-    public void OnDespawned()
-    {
-        transform.SetParent(null);
-        gameObject.SetActive(false);
-    }
+    public void OnDespawned() { }
 }
+
