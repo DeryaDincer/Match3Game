@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb5488e941859647a2765a52dcc02a9, type: 3}
+  m_Name: GamePoolSettings
+  m_EditorClassIdentifier: 
+  LevelButtonPrefab: {fileID: 4003561548506228046, guid: 50a5c37e825557644ba0f22f44f4bee5, type: 3}
+  LevelButtonPoolSize: 2
+  LevelButtonPoolName: LevelButtonPool
+  BlockPrefab: {fileID: 2703928565781708104, guid: 51d17bb404d740240b3ee60cc33639eb, type: 3}
+  BlockPoolSize: 20
+  BlockPoolName: BlockPool
+  FlyingSpritePrefab: {fileID: 2110366631952305236, guid: 7fe7deb0dc2aff6419154362e86750fc, type: 3}
+  FlyingSpritePoolSize: 0
+  FlyingSpritePoolName: FlyingSpritePool
+  BlockGoalUIPrefab: {fileID: 5680782826420360660, guid: b003150284d0bc044ae7f135eae1e995, type: 3}
+  BlockGoalUIPoolSize: 0
+  BlockGoalUIPoolName: BlockGoalUIPool

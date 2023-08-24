@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30d32b40cb580224c8d9bd849da3f929, type: 3}
+  m_Name: ApplicationControllerSettings
+  m_EditorClassIdentifier: 
+  gameScreenPrefab: {fileID: 6844875016077114720, guid: e4ad32c1f030b634ba8116931d14434e, type: 3}
+  mainMenuScreenPrefab: {fileID: 7662586717712507334, guid: 278bdc893c381f14fa716433b32c523b, type: 3}
